@@ -7,7 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		96CD6C99257EF04800C14FFD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6C98257EF04800C14FFD /* main.cpp */; };
+		96CD6C99257EF04800C14FFD /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6C98257EF04800C14FFD /* main.cc */; };
+		96CD6CA2257EF15B00C14FFD /* Reader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA0257EF15B00C14FFD /* Reader.cc */; };
+		96CD6CA7257EF1C300C14FFD /* Text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA5257EF1C300C14FFD /* Text.cc */; };
+		96CD6CAC257EF49D00C14FFD /* FileReader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CAA257EF49D00C14FFD /* FileReader.cc */; };
+		96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CB0257EFE4900C14FFD /* VmText.cc */; };
+		96E74E4C257F2F4B005730BF /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E4B257F2F4B005730BF /* Makefile */; };
+		96E74E56257F3833005730BF /* Writer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E54257F3833005730BF /* Writer.cc */; };
+		96E74E5C257F3907005730BF /* FileWriter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E5A257F3907005730BF /* FileWriter.cc */; };
+		96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E6C257F55AE005730BF /* TerminalViewController.cc */; };
+		96E74E73257F58C6005730BF /* ncursesViewController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E71257F58C6005730BF /* ncursesViewController.cc */; };
+		96E74E79257F611C005730BF /* TextView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E77257F611C005730BF /* TextView.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +34,27 @@
 
 /* Begin PBXFileReference section */
 		96CD6C95257EF04800C14FFD /* Vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Vm; sourceTree = BUILT_PRODUCTS_DIR; };
-		96CD6C98257EF04800C14FFD /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		96CD6C98257EF04800C14FFD /* main.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
+		96CD6CA0257EF15B00C14FFD /* Reader.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reader.cc; sourceTree = "<group>"; };
+		96CD6CA1257EF15B00C14FFD /* Reader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reader.h; sourceTree = "<group>"; };
+		96CD6CA5257EF1C300C14FFD /* Text.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cc; sourceTree = "<group>"; };
+		96CD6CA6257EF1C300C14FFD /* Text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
+		96CD6CAA257EF49D00C14FFD /* FileReader.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileReader.cc; sourceTree = "<group>"; };
+		96CD6CAB257EF49D00C14FFD /* FileReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileReader.h; sourceTree = "<group>"; };
+		96CD6CB0257EFE4900C14FFD /* VmText.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmText.cc; sourceTree = "<group>"; };
+		96CD6CB1257EFE4900C14FFD /* VmText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmText.h; sourceTree = "<group>"; };
+		96E74E4B257F2F4B005730BF /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		96E74E54257F3833005730BF /* Writer.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cc; sourceTree = "<group>"; };
+		96E74E55257F3833005730BF /* Writer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Writer.h; sourceTree = "<group>"; };
+		96E74E5A257F3907005730BF /* FileWriter.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileWriter.cc; sourceTree = "<group>"; };
+		96E74E5B257F3907005730BF /* FileWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileWriter.h; sourceTree = "<group>"; };
+		96E74E66257F4D05005730BF /* Posn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Posn.h; sourceTree = "<group>"; };
+		96E74E6C257F55AE005730BF /* TerminalViewController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TerminalViewController.cc; sourceTree = "<group>"; };
+		96E74E6D257F55AE005730BF /* TerminalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalViewController.h; sourceTree = "<group>"; };
+		96E74E71257F58C6005730BF /* ncursesViewController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ncursesViewController.cc; sourceTree = "<group>"; };
+		96E74E72257F58C6005730BF /* ncursesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ncursesViewController.h; sourceTree = "<group>"; };
+		96E74E77257F611C005730BF /* TextView.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextView.cc; sourceTree = "<group>"; };
+		96E74E78257F611C005730BF /* TextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +87,27 @@
 		96CD6C97257EF04800C14FFD /* Vm */ = {
 			isa = PBXGroup;
 			children = (
-				96CD6C98257EF04800C14FFD /* main.cpp */,
+				96CD6C98257EF04800C14FFD /* main.cc */,
+				96CD6CA0257EF15B00C14FFD /* Reader.cc */,
+				96CD6CA1257EF15B00C14FFD /* Reader.h */,
+				96CD6CAA257EF49D00C14FFD /* FileReader.cc */,
+				96CD6CAB257EF49D00C14FFD /* FileReader.h */,
+				96CD6CA5257EF1C300C14FFD /* Text.cc */,
+				96CD6CA6257EF1C300C14FFD /* Text.h */,
+				96E74E4B257F2F4B005730BF /* Makefile */,
+				96CD6CB0257EFE4900C14FFD /* VmText.cc */,
+				96CD6CB1257EFE4900C14FFD /* VmText.h */,
+				96E74E54257F3833005730BF /* Writer.cc */,
+				96E74E55257F3833005730BF /* Writer.h */,
+				96E74E5A257F3907005730BF /* FileWriter.cc */,
+				96E74E5B257F3907005730BF /* FileWriter.h */,
+				96E74E6C257F55AE005730BF /* TerminalViewController.cc */,
+				96E74E6D257F55AE005730BF /* TerminalViewController.h */,
+				96E74E71257F58C6005730BF /* ncursesViewController.cc */,
+				96E74E72257F58C6005730BF /* ncursesViewController.h */,
+				96E74E66257F4D05005730BF /* Posn.h */,
+				96E74E77257F611C005730BF /* TextView.cc */,
+				96E74E78257F611C005730BF /* TextView.h */,
 			);
 			path = Vm;
 			sourceTree = "<group>";
@@ -118,7 +168,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96CD6C99257EF04800C14FFD /* main.cpp in Sources */,
+				96E74E4C257F2F4B005730BF /* Makefile in Sources */,
+				96CD6CA7257EF1C300C14FFD /* Text.cc in Sources */,
+				96E74E56257F3833005730BF /* Writer.cc in Sources */,
+				96CD6CA2257EF15B00C14FFD /* Reader.cc in Sources */,
+				96E74E73257F58C6005730BF /* ncursesViewController.cc in Sources */,
+				96E74E79257F611C005730BF /* TextView.cc in Sources */,
+				96E74E5C257F3907005730BF /* FileWriter.cc in Sources */,
+				96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */,
+				96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */,
+				96CD6CAC257EF49D00C14FFD /* FileReader.cc in Sources */,
+				96CD6C99257EF04800C14FFD /* main.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
