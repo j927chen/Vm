@@ -1,9 +1,12 @@
+#include <ncurses.h>
+
 #include "ncursesViewController.h"
 #include "Posn.h"
 
 ncursesViewController::ncursesViewController() {
     initscr();
     noecho();
+    ESCDELAY = 250;
     keypad(stdscr, TRUE);
 }
 
@@ -24,5 +27,5 @@ int ncursesViewController::get() {
 }
 
 ncursesViewController::~ncursesViewController() {
-    //endwin();
+    endwin();
 }

@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9673ECDB2580B5390077A867 /* Model.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECD92580B5390077A867 /* Model.cc */; };
+		9673ECE02580B5A00077A867 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECDE2580B5A00077A867 /* View.cc */; };
+		9673ECE52580B6000077A867 /* VmTextView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECE32580B6000077A867 /* VmTextView.cc */; };
+		9673ECEA2580B64B0077A867 /* Controller.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECE82580B64B0077A867 /* Controller.cc */; };
+		9673ECF02580B6B80077A867 /* Action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECEE2580B6B80077A867 /* Action.cc */; };
+		9673ECFD2580BBCB0077A867 /* VmModel.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECFB2580BBCB0077A867 /* VmModel.cc */; };
+		9673ED032580BFB30077A867 /* Update.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ED022580BFB30077A867 /* Update.cc */; };
+		9673ED082580DBC20077A867 /* Cursor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ED062580DBC20077A867 /* Cursor.cc */; };
+		9681B11925805073007E0093 /* KeyboardController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9681B11725805072007E0093 /* KeyboardController.cc */; };
+		9681B12425805492007E0093 /* VmKeyboardController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9681B12225805492007E0093 /* VmKeyboardController.cc */; };
 		96CD6C99257EF04800C14FFD /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6C98257EF04800C14FFD /* main.cc */; };
 		96CD6CA2257EF15B00C14FFD /* Reader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA0257EF15B00C14FFD /* Reader.cc */; };
 		96CD6CA7257EF1C300C14FFD /* Text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA5257EF1C300C14FFD /* Text.cc */; };
@@ -17,7 +27,6 @@
 		96E74E5C257F3907005730BF /* FileWriter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E5A257F3907005730BF /* FileWriter.cc */; };
 		96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E6C257F55AE005730BF /* TerminalViewController.cc */; };
 		96E74E73257F58C6005730BF /* ncursesViewController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E71257F58C6005730BF /* ncursesViewController.cc */; };
-		96E74E79257F611C005730BF /* TextView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96E74E77257F611C005730BF /* TextView.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +42,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9673ECD92580B5390077A867 /* Model.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cc; sourceTree = "<group>"; };
+		9673ECDA2580B5390077A867 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		9673ECDE2580B5A00077A867 /* View.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cc; sourceTree = "<group>"; };
+		9673ECDF2580B5A00077A867 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		9673ECE32580B6000077A867 /* VmTextView.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmTextView.cc; sourceTree = "<group>"; };
+		9673ECE42580B6000077A867 /* VmTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmTextView.h; sourceTree = "<group>"; };
+		9673ECE82580B64B0077A867 /* Controller.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cc; sourceTree = "<group>"; };
+		9673ECE92580B64B0077A867 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		9673ECEE2580B6B80077A867 /* Action.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Action.cc; sourceTree = "<group>"; };
+		9673ECEF2580B6B80077A867 /* Action.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
+		9673ECF52580B70D0077A867 /* Update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Update.h; sourceTree = "<group>"; };
+		9673ECFB2580BBCB0077A867 /* VmModel.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmModel.cc; sourceTree = "<group>"; };
+		9673ECFC2580BBCB0077A867 /* VmModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmModel.h; sourceTree = "<group>"; };
+		9673ED022580BFB30077A867 /* Update.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Update.cc; sourceTree = "<group>"; };
+		9673ED062580DBC20077A867 /* Cursor.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cc; sourceTree = "<group>"; };
+		9673ED072580DBC20077A867 /* Cursor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
+		9681B11725805072007E0093 /* KeyboardController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardController.cc; sourceTree = "<group>"; };
+		9681B11825805073007E0093 /* KeyboardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardController.h; sourceTree = "<group>"; };
+		9681B12225805492007E0093 /* VmKeyboardController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmKeyboardController.cc; sourceTree = "<group>"; };
+		9681B12325805492007E0093 /* VmKeyboardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmKeyboardController.h; sourceTree = "<group>"; };
 		96CD6C95257EF04800C14FFD /* Vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Vm; sourceTree = BUILT_PRODUCTS_DIR; };
 		96CD6C98257EF04800C14FFD /* main.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
 		96CD6CA0257EF15B00C14FFD /* Reader.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reader.cc; sourceTree = "<group>"; };
@@ -53,8 +82,6 @@
 		96E74E6D257F55AE005730BF /* TerminalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalViewController.h; sourceTree = "<group>"; };
 		96E74E71257F58C6005730BF /* ncursesViewController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ncursesViewController.cc; sourceTree = "<group>"; };
 		96E74E72257F58C6005730BF /* ncursesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ncursesViewController.h; sourceTree = "<group>"; };
-		96E74E77257F611C005730BF /* TextView.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextView.cc; sourceTree = "<group>"; };
-		96E74E78257F611C005730BF /* TextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,16 +114,22 @@
 		96CD6C97257EF04800C14FFD /* Vm */ = {
 			isa = PBXGroup;
 			children = (
+				96E74E4B257F2F4B005730BF /* Makefile */,
 				96CD6C98257EF04800C14FFD /* main.cc */,
-				96CD6CA0257EF15B00C14FFD /* Reader.cc */,
-				96CD6CA1257EF15B00C14FFD /* Reader.h */,
-				96CD6CAA257EF49D00C14FFD /* FileReader.cc */,
-				96CD6CAB257EF49D00C14FFD /* FileReader.h */,
+				9673ECD92580B5390077A867 /* Model.cc */,
+				9673ECDA2580B5390077A867 /* Model.h */,
+				9673ECFB2580BBCB0077A867 /* VmModel.cc */,
+				9673ECFC2580BBCB0077A867 /* VmModel.h */,
 				96CD6CA5257EF1C300C14FFD /* Text.cc */,
 				96CD6CA6257EF1C300C14FFD /* Text.h */,
-				96E74E4B257F2F4B005730BF /* Makefile */,
 				96CD6CB0257EFE4900C14FFD /* VmText.cc */,
 				96CD6CB1257EFE4900C14FFD /* VmText.h */,
+				96CD6CA0257EF15B00C14FFD /* Reader.cc */,
+				96CD6CA1257EF15B00C14FFD /* Reader.h */,
+				9673ED062580DBC20077A867 /* Cursor.cc */,
+				9673ED072580DBC20077A867 /* Cursor.h */,
+				96CD6CAA257EF49D00C14FFD /* FileReader.cc */,
+				96CD6CAB257EF49D00C14FFD /* FileReader.h */,
 				96E74E54257F3833005730BF /* Writer.cc */,
 				96E74E55257F3833005730BF /* Writer.h */,
 				96E74E5A257F3907005730BF /* FileWriter.cc */,
@@ -105,9 +138,21 @@
 				96E74E6D257F55AE005730BF /* TerminalViewController.h */,
 				96E74E71257F58C6005730BF /* ncursesViewController.cc */,
 				96E74E72257F58C6005730BF /* ncursesViewController.h */,
+				9673ECDE2580B5A00077A867 /* View.cc */,
+				9673ECDF2580B5A00077A867 /* View.h */,
+				9673ECE32580B6000077A867 /* VmTextView.cc */,
+				9673ECE42580B6000077A867 /* VmTextView.h */,
+				9673ECE82580B64B0077A867 /* Controller.cc */,
+				9673ECE92580B64B0077A867 /* Controller.h */,
+				9681B11725805072007E0093 /* KeyboardController.cc */,
+				9681B11825805073007E0093 /* KeyboardController.h */,
+				9681B12225805492007E0093 /* VmKeyboardController.cc */,
+				9681B12325805492007E0093 /* VmKeyboardController.h */,
+				9673ECEE2580B6B80077A867 /* Action.cc */,
+				9673ECEF2580B6B80077A867 /* Action.h */,
+				9673ED022580BFB30077A867 /* Update.cc */,
+				9673ECF52580B70D0077A867 /* Update.h */,
 				96E74E66257F4D05005730BF /* Posn.h */,
-				96E74E77257F611C005730BF /* TextView.cc */,
-				96E74E78257F611C005730BF /* TextView.h */,
 			);
 			path = Vm;
 			sourceTree = "<group>";
@@ -168,16 +213,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9681B12425805492007E0093 /* VmKeyboardController.cc in Sources */,
 				96E74E4C257F2F4B005730BF /* Makefile in Sources */,
 				96CD6CA7257EF1C300C14FFD /* Text.cc in Sources */,
+				9673ECEA2580B64B0077A867 /* Controller.cc in Sources */,
+				9673ECF02580B6B80077A867 /* Action.cc in Sources */,
 				96E74E56257F3833005730BF /* Writer.cc in Sources */,
 				96CD6CA2257EF15B00C14FFD /* Reader.cc in Sources */,
 				96E74E73257F58C6005730BF /* ncursesViewController.cc in Sources */,
-				96E74E79257F611C005730BF /* TextView.cc in Sources */,
 				96E74E5C257F3907005730BF /* FileWriter.cc in Sources */,
+				9673ED082580DBC20077A867 /* Cursor.cc in Sources */,
+				9673ECDB2580B5390077A867 /* Model.cc in Sources */,
+				9673ECE02580B5A00077A867 /* View.cc in Sources */,
 				96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */,
+				9681B11925805073007E0093 /* KeyboardController.cc in Sources */,
 				96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */,
+				9673ECFD2580BBCB0077A867 /* VmModel.cc in Sources */,
+				9673ED032580BFB30077A867 /* Update.cc in Sources */,
 				96CD6CAC257EF49D00C14FFD /* FileReader.cc in Sources */,
+				9673ECE52580B6000077A867 /* VmTextView.cc in Sources */,
 				96CD6C99257EF04800C14FFD /* main.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

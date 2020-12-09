@@ -1,7 +1,6 @@
 #ifndef ncursesViewController_h
 #define ncursesViewController_h
 
-#include <ncurses.h>
 #include "TerminalViewController.h"
 
 class Posn;
