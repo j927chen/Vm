@@ -3,6 +3,7 @@
 #include "FileReader.h"
 #include "FileWriter.h"
 #include "VmText.h"
+#include "VmCursor.h"
 #include "ncursesViewController.h"
 #include "VmTextView.h"
 #include "VmKeyboardController.h"
@@ -20,11 +21,14 @@ int main(int argc, const char * argv[]) {
     std::unique_ptr<Reader> reader {new FileReader};
     std::unique_ptr<Writer> writer {new FileWriter};
     std::unique_ptr<Text> text = reader->read(fileName);
-    std::unique_ptr<Model> model {new VmModel{std::move(text), std::move(reader), std::move(writer)}};
+    std::unique_ptr<Cursor> cursor {new VmCursor{*text.get()}};
+    std::unique_ptr<Model> model {new VmModel{std::move(text), std::move(cursor), std::move(reader), std::move(writer)}};
     
     view->accept(*std::unique_ptr<VmLoadFile>(new VmLoadFile{fileName, model->getText()}).get());
-    while (!dynamic_cast<const escKeyPressed*>(&controller->getAction())) {
-        
+
+    const Action *a = &controller->getAction();
+    while (!dynamic_cast<const escKeyPressed*>(a)) {
+        a->visit(*model.get())->visit(*view);
+        a = &controller->getAction();
     }
-    //writer->write(fileName, *text.get());
 }

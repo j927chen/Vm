@@ -2,8 +2,11 @@
 #include "Model.h"
 #include "Update.h"
 
-void unknownKeyPressed::visit(Model &m) { m.update(*this); }
+std::unique_ptr<const Update> unknownKeyPressed::visit(Model &m) const { return m.update(*this); }
 
-void hKeyPressed::visit(Model &m) { m.update(*this); }
+std::unique_ptr<const Update> hKeyPressed::visit(Model &m) const { return m.update(*this); }
 
-void escKeyPressed::visit(Model &m) { m.update(*this); }
+std::unique_ptr<const Update> lKeyPressed::visit(Model &m) const { return m.update(*this); }
+
+
+std::unique_ptr<const Update> escKeyPressed::visit(Model &m) const { return m.update(*this); }

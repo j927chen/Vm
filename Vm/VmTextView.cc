@@ -4,26 +4,40 @@
 #include "Update.h"
 #include "Posn.h"
 
-VmTextView::VmTextView(TerminalViewController &terminalViewController): View{terminalViewController} {}
+VmTextView::VmTextView(TerminalViewController &terminalViewController): View{terminalViewController}, firstDisplayedRow{1} {}
 
-void VmTextView::accept(VmLoadFile &u) {
-    display(u.text, *u.text.begin().get());
+const Posn VmTextView::convertTextPosnToTerminalPosn(const Posn &p) {
+    return Posn{p.x - 1, p.y - 1};
 }
 
-void VmTextView::accept(VmMoveCursorDown &u) {
-    display(u.text, u.constTextIterator);
+void VmTextView::accept(const VmLoadFile &u) {
+    display(*u.text.begin().get(), *u.text.end().get());
+    terminalViewController.moveCursorToFinalPosn();
 }
 
-void VmTextView::accept(VmMoveCursorLeft &u) {
-    display(u.text, u.constTextIterator);
+void VmTextView::accept(const VmMoveCursorDown &u) {
+ 
 }
 
-void VmTextView::display(const Text &text, ConstTextIterator &constTextIterator) {
+void VmTextView::accept(const VmMoveCursorLeft &u) {
+    int relativeTextRow = (u.cursorPosn.y ? u.cursorPosn.y : 1) - firstDisplayedRow + 1;
+    terminalViewController.finalCursorPosn = convertTextPosnToTerminalPosn(Posn {u.cursorPosn.x ? u.cursorPosn.x : 1, relativeTextRow});
+    terminalViewController.moveCursorToFinalPosn();
+}
+
+void VmTextView::accept(const VmMoveCursorRight &u) {
+    int relativeTextRow = (u.cursorPosn.y ? u.cursorPosn.y : 1) - firstDisplayedRow + 1;
+    terminalViewController.finalCursorPosn = convertTextPosnToTerminalPosn(Posn {u.cursorPosn.x ? u.cursorPosn.x : 1, relativeTextRow});
+    terminalViewController.moveCursorToFinalPosn();
+}
+
+
+void VmTextView::display(ConstTextIterator &begin, ConstTextIterator &end) {
     Posn scrSize = terminalViewController.getScrSize();
     int x = 0;
     int y = 0;
     char c;
-    for (auto it = constTextIterator.clone(); it->operator!=(*text.end().get()); it->operator++()) {
+    for (auto it = begin.clone(); it->operator!=(end); it->operator++()) {
         
         if (y >= scrSize.y) return;
         

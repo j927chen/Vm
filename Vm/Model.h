@@ -7,16 +7,20 @@ class Update;
 
 class unknownKeyPressed;
 class hKeyPressed;
+class lKeyPressed;
 class escKeyPressed;
 
 class Text;
+class Cursor;
 
 class Model {
 public:
     virtual std::unique_ptr<const Update> update(const unknownKeyPressed &a) = 0;
     virtual std::unique_ptr<const Update> update(const hKeyPressed &a) = 0;
+    virtual std::unique_ptr<const Update> update(const lKeyPressed &a) = 0;
     virtual std::unique_ptr<const Update> update(const escKeyPressed &a) = 0;
     virtual const Text &getText() = 0;
+    virtual const Cursor &getCursor() = 0;
     virtual ~Model();
 };
 

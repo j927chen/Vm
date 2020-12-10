@@ -5,6 +5,7 @@ class TerminalViewController;
 class VmLoadFile;
 class VmMoveCursorDown;
 class VmMoveCursorLeft;
+class VmMoveCursorRight;
 
 class View {
     
@@ -13,9 +14,10 @@ protected:
     
 public:
     View(TerminalViewController &terminalViewController);
-    virtual void accept(VmLoadFile &u) = 0;
-    virtual void accept(VmMoveCursorDown &u) = 0;
-    virtual void accept(VmMoveCursorLeft &u) = 0;
+    virtual void accept(const VmLoadFile &u) = 0;
+    virtual void accept(const VmMoveCursorDown &u) = 0;
+    virtual void accept(const VmMoveCursorLeft &u) = 0;
+    virtual void accept(const VmMoveCursorRight &u) = 0;
     virtual ~View();
 };
 

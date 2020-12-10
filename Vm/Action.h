@@ -1,26 +1,34 @@
 #ifndef Action_h
 #define Action_h
 
+#include <memory>
+
 class Model;
+class Update;
 
 class Action {
 public:
-    virtual void visit(Model &m) = 0;
+    virtual std::unique_ptr<const Update> visit(Model &m) const = 0;
 };
 
 class unknownKeyPressed: public Action {
 public:
-    void visit(Model &m) override;
+    std::unique_ptr<const Update> visit(Model &m) const override;
 };
 
 class hKeyPressed: public Action {
 public:
-    void visit(Model &m) override;
+    std::unique_ptr<const Update> visit(Model &m) const override;
+};
+
+class lKeyPressed: public Action {
+public:
+    std::unique_ptr<const Update> visit(Model &m) const override;
 };
 
 class escKeyPressed: public Action {
 public:
-    void visit(Model &m) override;
+    std::unique_ptr<const Update> visit(Model &m) const override;
 };
 
 #endif 

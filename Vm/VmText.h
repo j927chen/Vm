@@ -7,6 +7,7 @@
 class VmText: public Text {
     
     std::string text;
+    size_t numOfLines;
     
 public:
     
@@ -35,12 +36,21 @@ public:
         
     public:
         std::unique_ptr<ConstTextIterator> clone() const override;
+        bool operator=(const ConstTextIterator &other) const override;
         bool operator!=(const ConstTextIterator &other) const override;
         std::unique_ptr<ConstTextIterator> operator++() override;
+        std::unique_ptr<ConstTextIterator> operator--() override;
         char const &operator*() const override;
+        std::unique_ptr<ConstTextIterator> next() const override;
         
         friend VmText;
     };
+    
+    bool isEmpty() const override;
+    
+    size_t getLength() const override;
+    
+    size_t getNumOfLines() const override;
     
     std::unique_ptr<TextIterator> begin() override;
     std::unique_ptr<TextIterator> end() override;

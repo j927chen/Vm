@@ -3,14 +3,11 @@
 
 #include "TerminalViewController.h"
 
-class Posn;
-
-
 class ncursesViewController: public TerminalViewController {
     
 public:
-    ncursesViewController();
-    
+    ncursesViewController() ;
+    void moveCursorToFinalPosn() override;
     const Posn getScrSize() const override;
     void print(char c, const Posn p) override;
     int get() override;

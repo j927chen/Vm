@@ -1,13 +1,16 @@
 #include <ncurses.h>
-
 #include "ncursesViewController.h"
-#include "Posn.h"
 
 ncursesViewController::ncursesViewController() {
     initscr();
     noecho();
     ESCDELAY = 250;
     keypad(stdscr, TRUE);
+}
+
+void ncursesViewController::moveCursorToFinalPosn() {
+    move(finalCursorPosn.y, finalCursorPosn.x);
+    refresh();
 }
 
 const Posn ncursesViewController::getScrSize() const {

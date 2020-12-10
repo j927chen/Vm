@@ -2,6 +2,7 @@
 #define Text_h
 
 #include <memory>
+class Posn;
 
 class TextIterator {
     
@@ -17,15 +18,24 @@ class ConstTextIterator {
     
 public:
     virtual std::unique_ptr<ConstTextIterator> clone() const = 0;
+    virtual bool operator=(const ConstTextIterator &other) const = 0;
     virtual bool operator!=(const ConstTextIterator &other) const = 0;
     virtual std::unique_ptr<ConstTextIterator> operator++() = 0;
+    virtual std::unique_ptr<ConstTextIterator> operator--() = 0;
     virtual const char &operator*() const = 0;
+    virtual std::unique_ptr<ConstTextIterator> next() const = 0;
     virtual ~ConstTextIterator();
 };
 
 class Text {
     
 public:
+    
+    virtual bool isEmpty() const = 0;
+    
+    virtual size_t getLength() const = 0;
+    
+    virtual size_t getNumOfLines() const = 0;
     
     virtual std::unique_ptr<TextIterator> begin() = 0;
     virtual std::unique_ptr<TextIterator> end() = 0;

@@ -1,11 +1,14 @@
 #ifndef TerminalViewController_h
 #define TerminalViewController_h
 
-class Posn;
+#include "Posn.h"
 
 class TerminalViewController {
-
+    
 public:
+    Posn finalCursorPosn;
+    TerminalViewController();
+    virtual void moveCursorToFinalPosn() = 0;
     virtual const Posn getScrSize() const = 0;
     virtual void print(char c, const Posn p) = 0;
     virtual int get() = 0;

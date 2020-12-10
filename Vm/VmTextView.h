@@ -4,17 +4,22 @@
 #include "View.h"
 
 class Text;
+class Posn;
 class ConstTextIterator;
 
 class VmTextView: public View {
     
-    void display(const Text &text, ConstTextIterator &constTextIterator);
+    int firstDisplayedRow;
+    
+    void display(ConstTextIterator &begin, ConstTextIterator &end);
+    const Posn convertTextPosnToTerminalPosn(const Posn &p);
     
 public:
     VmTextView(TerminalViewController &terminalViewController);
-    void accept(VmLoadFile &u) override;
-    void accept(VmMoveCursorDown &u) override;
-    void accept(VmMoveCursorLeft &u) override;
+    void accept(const VmLoadFile &u) override;
+    void accept(const VmMoveCursorDown &u) override;
+    void accept(const VmMoveCursorLeft &u) override;
+    void accept(const VmMoveCursorRight &u) override;
     ~VmTextView();
 };
 
