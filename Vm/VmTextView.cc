@@ -4,15 +4,14 @@
 #include "Update.h"
 #include "Posn.h"
 
-VmTextView::VmTextView(TerminalViewController &terminalViewController): View{terminalViewController}, firstDisplayedRow{1} {}
+VmTextView::VmTextView(TerminalViewController &terminalViewController): View{terminalViewController}, firstDisplayedTextRowNum{1}, maxHeight{terminalViewController.getScrHeight() - 1} {}
 
-const Posn VmTextView::convertTextPosnToTerminalPosn(const Posn &p) {
-    return Posn{p.x - 1, p.y - 1};
+const Posn VmTextView::convertTextPosnToTerminalPosn(const Posn p) {
+    return Posn{p.x ? p.x - 1 : 0, p.y ? p.y - 1 : 0};
 }
 
 void VmTextView::accept(const VmLoadFile &u) {
     display(*u.text.begin().get(), *u.text.end().get());
-    terminalViewController.moveCursorToFinalPosn();
 }
 
 void VmTextView::accept(const VmMoveCursorDown &u) {
@@ -20,15 +19,15 @@ void VmTextView::accept(const VmMoveCursorDown &u) {
 }
 
 void VmTextView::accept(const VmMoveCursorLeft &u) {
-    int relativeTextRow = (u.cursorPosn.y ? u.cursorPosn.y : 1) - firstDisplayedRow + 1;
-    terminalViewController.finalCursorPosn = convertTextPosnToTerminalPosn(Posn {u.cursorPosn.x ? u.cursorPosn.x : 1, relativeTextRow});
-    terminalViewController.moveCursorToFinalPosn();
+    Posn cursorPosn = u.cursorPosn;
+    int scrWidth = terminalViewController.getScrWidth();
+    int relativeTextRow = (cursorPosn.x - 1) / scrWidth + cursorPosn.y - firstDisplayedTextRowNum + 1;
+    int relativeTextColumn = cursorPosn.x ? cursorPosn.x % scrWidth ? cursorPosn.x % scrWidth : scrWidth : 0;
+    terminalViewController.finalCursorPosn = convertTextPosnToTerminalPosn(Posn {relativeTextColumn, relativeTextRow});
 }
 
 void VmTextView::accept(const VmMoveCursorRight &u) {
-    int relativeTextRow = (u.cursorPosn.y ? u.cursorPosn.y : 1) - firstDisplayedRow + 1;
-    terminalViewController.finalCursorPosn = convertTextPosnToTerminalPosn(Posn {u.cursorPosn.x ? u.cursorPosn.x : 1, relativeTextRow});
-    terminalViewController.moveCursorToFinalPosn();
+    accept(VmMoveCursorLeft {u.text, u.cursorPosn});
 }
 
 
@@ -39,7 +38,7 @@ void VmTextView::display(ConstTextIterator &begin, ConstTextIterator &end) {
     char c;
     for (auto it = begin.clone(); it->operator!=(end); it->operator++()) {
         
-        if (y >= scrSize.y) return;
+        if (y >= maxHeight) return;
         
         c = it->operator*();
         
@@ -57,8 +56,8 @@ void VmTextView::display(ConstTextIterator &begin, ConstTextIterator &end) {
         } else ++x;
     }
     
-    for (; y < scrSize.y; ++y) {
-        terminalViewController.print('~', Posn(0, y));
+    for (; y < maxHeight; ++y) {
+        if (y) terminalViewController.print('~', Posn(0, y));
     }
 }
 

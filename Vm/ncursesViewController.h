@@ -9,6 +9,8 @@ public:
     ncursesViewController() ;
     void moveCursorToFinalPosn() override;
     const Posn getScrSize() const override;
+    const int getScrWidth() const override;
+    const int getScrHeight() const override;
     void print(char c, const Posn p) override;
     int get() override;
     

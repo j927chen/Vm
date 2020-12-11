@@ -9,10 +9,11 @@ class ConstTextIterator;
 
 class VmTextView: public View {
     
-    int firstDisplayedRow;
+    int firstDisplayedTextRowNum;
+    int maxHeight;
     
     void display(ConstTextIterator &begin, ConstTextIterator &end);
-    const Posn convertTextPosnToTerminalPosn(const Posn &p);
+    const Posn convertTextPosnToTerminalPosn(const Posn p);
     
 public:
     VmTextView(TerminalViewController &terminalViewController);

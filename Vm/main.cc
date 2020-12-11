@@ -25,10 +25,12 @@ int main(int argc, const char * argv[]) {
     std::unique_ptr<Model> model {new VmModel{std::move(text), std::move(cursor), std::move(reader), std::move(writer)}};
     
     view->accept(*std::unique_ptr<VmLoadFile>(new VmLoadFile{fileName, model->getText()}).get());
+    terminalViewController->moveCursorToFinalPosn();
 
     const Action *a = &controller->getAction();
     while (!dynamic_cast<const escKeyPressed*>(a)) {
         a->visit(*model.get())->visit(*view);
+        terminalViewController->moveCursorToFinalPosn();
         a = &controller->getAction();
     }
 }
