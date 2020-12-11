@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		963201122581C7D8009AF1D4 /* VmCursor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 963201102581C7D8009AF1D4 /* VmCursor.cc */; };
+		9636A60925833FB400EACAAF /* VmStatusBarView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9636A60725833FB400EACAAF /* VmStatusBarView.cc */; };
 		9673ECDB2580B5390077A867 /* Model.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECD92580B5390077A867 /* Model.cc */; };
 		9673ECE02580B5A00077A867 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECDE2580B5A00077A867 /* View.cc */; };
 		9673ECE52580B6000077A867 /* VmTextView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECE32580B6000077A867 /* VmTextView.cc */; };
@@ -45,6 +46,8 @@
 /* Begin PBXFileReference section */
 		963201102581C7D8009AF1D4 /* VmCursor.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmCursor.cc; sourceTree = "<group>"; };
 		963201112581C7D8009AF1D4 /* VmCursor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmCursor.h; sourceTree = "<group>"; };
+		9636A60725833FB400EACAAF /* VmStatusBarView.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmStatusBarView.cc; sourceTree = "<group>"; };
+		9636A60825833FB400EACAAF /* VmStatusBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmStatusBarView.h; sourceTree = "<group>"; };
 		9673ECD92580B5390077A867 /* Model.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cc; sourceTree = "<group>"; };
 		9673ECDA2580B5390077A867 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		9673ECDE2580B5A00077A867 /* View.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cc; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				9673ECDF2580B5A00077A867 /* View.h */,
 				9673ECE32580B6000077A867 /* VmTextView.cc */,
 				9673ECE42580B6000077A867 /* VmTextView.h */,
+				9636A60725833FB400EACAAF /* VmStatusBarView.cc */,
+				9636A60825833FB400EACAAF /* VmStatusBarView.h */,
 				9673ECE82580B64B0077A867 /* Controller.cc */,
 				9673ECE92580B64B0077A867 /* Controller.h */,
 				9681B11725805072007E0093 /* KeyboardController.cc */,
@@ -233,6 +238,7 @@
 				9673ECE02580B5A00077A867 /* View.cc in Sources */,
 				96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */,
 				9681B11925805073007E0093 /* KeyboardController.cc in Sources */,
+				9636A60925833FB400EACAAF /* VmStatusBarView.cc in Sources */,
 				96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */,
 				9673ECFD2580BBCB0077A867 /* VmModel.cc in Sources */,
 				9673ED032580BFB30077A867 /* Update.cc in Sources */,

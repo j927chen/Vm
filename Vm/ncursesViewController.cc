@@ -37,6 +37,12 @@ void ncursesViewController::print(char c, const Posn p) {
     refresh();
 }
 
+void ncursesViewController::clearToEOL(const Posn p) {
+    move(p.y, p.x);
+    clrtoeol();
+    refresh();
+}
+
 int ncursesViewController::get() {
     return getch();
 }

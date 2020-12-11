@@ -1,6 +1,8 @@
 #include "VmCursor.h"
 #include "Text.h"
 
+#include <iostream>
+
 VmCursor::VmCursor(const Text &text): text{text}, it{text.begin()}, textPosn{getInitialPosn()}, unboundedPosn{getInitialPosn()} {}
 
 const Posn VmCursor::getInitialPosn() {
@@ -18,28 +20,24 @@ void VmCursor::moveLeftByOne() {
 
 void VmCursor::moveRightByOne() {
     if (textPosn.y == 0 || textPosn.x == 0) return;
-    if (it->operator++()->operator*() == '\n') {
-        it->operator--();
+    if (it->next()->operator*() == '\n') {
         return;
     }
+    it->operator++();
     textPosn = Posn{textPosn.x + 1, textPosn.y};
     unboundedPosn = Posn{unboundedPosn.x + 1, unboundedPosn.y};
 }
 
 void VmCursor::moveUpByOne() {
     if (textPosn.y <= 1) return;
-    int newLineCount = 0;
-    it = text.begin();
-    while (newLineCount < textPosn.y - 2) {
-        if (it->operator*() == '\n') ++newLineCount;
-        it->operator++();
-    }
+    it = text.beginAtLine(textPosn.y - 1);
     if (it->operator*() == '\n') {
         textPosn = Posn {0, textPosn.y - 1};
     } else {
         for (int i = 1; i <= unboundedPosn.x; ++i) {
             if (it->next()->operator*() == '\n' || i == unboundedPosn.x) {
                 textPosn = Posn {i, textPosn.y - 1};
+                break;
             }
             it->operator++();
         }
@@ -49,18 +47,14 @@ void VmCursor::moveUpByOne() {
 
 void VmCursor::moveDownByOne() {
     if (textPosn.y == text.getNumOfLines()) return;
-    int newLineCount = 0;
-    it = text.begin();
-    while (newLineCount < textPosn.y) {
-        if (it->operator*() == '\n') ++newLineCount;
-        it->operator++();
-    }
+    it = text.beginAtLine(textPosn.y + 1);
     if (it->operator*() == '\n') {
         textPosn = Posn {0, textPosn.y + 1};
     } else {
         for (int i = 1; i <= unboundedPosn.x; ++i) {
             if (it->next()->operator*() == '\n' || i == unboundedPosn.x) {
                 textPosn = Posn {i, textPosn.y + 1};
+                break;
             }
             it->operator++();
         }

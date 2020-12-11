@@ -43,6 +43,8 @@ public:
     virtual std::unique_ptr<ConstTextIterator> begin() const = 0;
     virtual std::unique_ptr<ConstTextIterator> end() const = 0;
     
+    virtual std::unique_ptr<ConstTextIterator> beginAtLine(int ln) const = 0;
+    
     virtual std::unique_ptr<ConstTextIterator> cbegin() = 0;
     virtual std::unique_ptr<ConstTextIterator> cend() = 0;
     

@@ -6,7 +6,10 @@ std::unique_ptr<const Update> unknownKeyPressed::visit(Model &m) const { return 
 
 std::unique_ptr<const Update> hKeyPressed::visit(Model &m) const { return m.update(*this); }
 
-std::unique_ptr<const Update> lKeyPressed::visit(Model &m) const { return m.update(*this); }
+std::unique_ptr<const Update> jKeyPressed::visit(Model &m) const { return m.update(*this); }
 
+std::unique_ptr<const Update> kKeyPressed::visit(Model &m) const { return m.update(*this); }
+
+std::unique_ptr<const Update> lKeyPressed::visit(Model &m) const { return m.update(*this); }
 
 std::unique_ptr<const Update> escKeyPressed::visit(Model &m) const { return m.update(*this); }

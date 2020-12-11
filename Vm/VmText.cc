@@ -78,6 +78,16 @@ std::unique_ptr<ConstTextIterator> VmText::end() const {
     return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {text.end()});
 }
 
+std::unique_ptr<ConstTextIterator> VmText::beginAtLine(int ln) const {
+    auto it = begin();
+    if (ln > 0) {
+        for (int i = 1; i < ln; it->operator++()) {
+            if (it->operator*() == '\n') ++i;
+        }
+    }
+    return it;
+}
+
 std::unique_ptr<ConstTextIterator> VmText::cbegin() {
     return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {text.begin()});
 };

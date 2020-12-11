@@ -58,6 +58,8 @@ public:
     std::unique_ptr<ConstTextIterator> begin() const override;
     std::unique_ptr<ConstTextIterator> end() const override;
     
+    std::unique_ptr<ConstTextIterator> beginAtLine(int ln) const override;
+    
     std::unique_ptr<ConstTextIterator> cbegin() override;
     std::unique_ptr<ConstTextIterator> cend() override;
     
