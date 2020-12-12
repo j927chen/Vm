@@ -2,7 +2,10 @@
 #define View_h
 
 class TerminalViewController;
+class NoUpdate;
 class VmLoadFile;
+class VmCommandMode;
+class VmCommandEnterMode;
 class VmMoveCursorUp;
 class VmMoveCursorDown;
 class VmMoveCursorLeft;
@@ -15,7 +18,10 @@ protected:
     
 public:
     View(TerminalViewController &terminalViewController);
+    virtual void accept(const NoUpdate &u) = 0;
     virtual void accept(const VmLoadFile &u) = 0;
+    virtual void accept(const VmCommandMode &u) = 0;
+    virtual void accept(const VmCommandEnterMode &u) = 0;
     virtual void accept(const VmMoveCursorUp &u) = 0;
     virtual void accept(const VmMoveCursorDown &u) = 0;
     virtual void accept(const VmMoveCursorLeft &u) = 0;

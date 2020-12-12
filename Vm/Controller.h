@@ -1,6 +1,8 @@
 #ifndef Controller_h
 #define Controller_h
 
+#include <memory>
+
 class TerminalViewController;
 class Action;
 
@@ -9,7 +11,7 @@ protected:
     TerminalViewController &terminalViewController;
 public:
     Controller(TerminalViewController &terminalViewController);
-    virtual const Action &getAction() = 0;
+    virtual std::unique_ptr<const Action> getAction() = 0;
     virtual ~Controller();
 };
 

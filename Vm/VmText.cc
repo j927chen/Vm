@@ -56,6 +56,8 @@ std::unique_ptr<ConstTextIterator> VmText::ConstVmTextIterator::next() const {
     return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {nextIt});
 }
 
+VmText::VmText(): text{""}, numOfLines{0} {}
+
 VmText::VmText(std::string text): text{std::move(text)} {
     size_t newLineCount = 0;
     for (auto it = cbegin(); it->operator!=(*cend().get()); it->operator++()) {
@@ -98,8 +100,8 @@ std::unique_ptr<ConstTextIterator> VmText::cend() {
 
 bool VmText::isEmpty() const { return text.empty(); }
 
-size_t VmText::getLength() const { return text.length(); }
+int VmText::getLength() const { return text.length(); }
 
-size_t VmText::getNumOfLines() const { return numOfLines; }
+int VmText::getNumOfLines() const { return numOfLines; }
 
 VmText::~VmText() {}

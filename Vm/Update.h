@@ -13,6 +13,20 @@ public:
     virtual ~Update();
 };
 
+class NoUpdate: public Update {
+public:
+    void visit(View &v) const override;
+    ~NoUpdate();
+};
+
+class Terminate: public Update {
+public:
+    void visit(View &v) const override;
+    ~Terminate();
+};
+
+// MARK: - Writing
+
 class VmLoadFile: public Update {
 public:
     const std::string &fileName;
@@ -24,6 +38,24 @@ public:
     ~VmLoadFile();
 };
 
+// MARK: - Mode
+
+class VmCommandMode: public Update {
+public:
+    const Text &text;
+    const Posn cursorPosn;
+    VmCommandMode(const Text &text, const Posn cursorPosn);
+    void visit(View &v) const override;
+    ~VmCommandMode();
+};
+
+class VmCommandEnterMode: public Update {
+public:
+    const std::string &typedCommand;
+    VmCommandEnterMode(const std::string &typedCommand);
+    void visit(View &v) const override;
+    ~VmCommandEnterMode();
+};
 
 class VmMoveCursor: public Update {
 public:

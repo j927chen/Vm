@@ -47,6 +47,8 @@ int ncursesViewController::get() {
     return getch();
 }
 
+int ncursesViewController::getBackspaceCode() const { return KEY_BACKSPACE; }
+
 ncursesViewController::~ncursesViewController() {
     endwin();
 }

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		963201122581C7D8009AF1D4 /* VmCursor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 963201102581C7D8009AF1D4 /* VmCursor.cc */; };
 		9636A60925833FB400EACAAF /* VmStatusBarView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9636A60725833FB400EACAAF /* VmStatusBarView.cc */; };
+		965FE01F25836D0000D834CB /* Editor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 965FE01D25836D0000D834CB /* Editor.cc */; };
+		965FE02525836DBC00D834CB /* Editable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 965FE02325836DBC00D834CB /* Editable.cc */; };
+		965FE0292583715700D834CB /* Searchable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 965FE0272583715700D834CB /* Searchable.cc */; };
+		965FE02E2583755D00D834CB /* VmEditor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 965FE02C2583755D00D834CB /* VmEditor.cc */; };
 		9673ECDB2580B5390077A867 /* Model.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECD92580B5390077A867 /* Model.cc */; };
 		9673ECE02580B5A00077A867 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECDE2580B5A00077A867 /* View.cc */; };
 		9673ECE52580B6000077A867 /* VmTextView.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ECE32580B6000077A867 /* VmTextView.cc */; };
@@ -48,6 +52,14 @@
 		963201112581C7D8009AF1D4 /* VmCursor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmCursor.h; sourceTree = "<group>"; };
 		9636A60725833FB400EACAAF /* VmStatusBarView.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmStatusBarView.cc; sourceTree = "<group>"; };
 		9636A60825833FB400EACAAF /* VmStatusBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmStatusBarView.h; sourceTree = "<group>"; };
+		965FE01D25836D0000D834CB /* Editor.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Editor.cc; sourceTree = "<group>"; };
+		965FE01E25836D0000D834CB /* Editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Editor.h; sourceTree = "<group>"; };
+		965FE02325836DBC00D834CB /* Editable.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Editable.cc; sourceTree = "<group>"; };
+		965FE02425836DBC00D834CB /* Editable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Editable.h; sourceTree = "<group>"; };
+		965FE0272583715700D834CB /* Searchable.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Searchable.cc; sourceTree = "<group>"; };
+		965FE0282583715700D834CB /* Searchable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Searchable.h; sourceTree = "<group>"; };
+		965FE02C2583755D00D834CB /* VmEditor.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmEditor.cc; sourceTree = "<group>"; };
+		965FE02D2583755D00D834CB /* VmEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmEditor.h; sourceTree = "<group>"; };
 		9673ECD92580B5390077A867 /* Model.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cc; sourceTree = "<group>"; };
 		9673ECDA2580B5390077A867 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		9673ECDE2580B5A00077A867 /* View.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cc; sourceTree = "<group>"; };
@@ -130,12 +142,20 @@
 				96CD6CA6257EF1C300C14FFD /* Text.h */,
 				96CD6CB0257EFE4900C14FFD /* VmText.cc */,
 				96CD6CB1257EFE4900C14FFD /* VmText.h */,
-				96CD6CA0257EF15B00C14FFD /* Reader.cc */,
-				96CD6CA1257EF15B00C14FFD /* Reader.h */,
+				965FE01D25836D0000D834CB /* Editor.cc */,
+				965FE01E25836D0000D834CB /* Editor.h */,
+				965FE02C2583755D00D834CB /* VmEditor.cc */,
+				965FE02D2583755D00D834CB /* VmEditor.h */,
+				965FE02325836DBC00D834CB /* Editable.cc */,
+				965FE02425836DBC00D834CB /* Editable.h */,
+				965FE0272583715700D834CB /* Searchable.cc */,
+				965FE0282583715700D834CB /* Searchable.h */,
 				9673ED062580DBC20077A867 /* Cursor.cc */,
 				9673ED072580DBC20077A867 /* Cursor.h */,
 				963201102581C7D8009AF1D4 /* VmCursor.cc */,
 				963201112581C7D8009AF1D4 /* VmCursor.h */,
+				96CD6CA0257EF15B00C14FFD /* Reader.cc */,
+				96CD6CA1257EF15B00C14FFD /* Reader.h */,
 				96CD6CAA257EF49D00C14FFD /* FileReader.cc */,
 				96CD6CAB257EF49D00C14FFD /* FileReader.h */,
 				96E74E54257F3833005730BF /* Writer.cc */,
@@ -237,6 +257,8 @@
 				9673ECDB2580B5390077A867 /* Model.cc in Sources */,
 				9673ECE02580B5A00077A867 /* View.cc in Sources */,
 				96E74E6E257F55AE005730BF /* TerminalViewController.cc in Sources */,
+				965FE0292583715700D834CB /* Searchable.cc in Sources */,
+				965FE01F25836D0000D834CB /* Editor.cc in Sources */,
 				9681B11925805073007E0093 /* KeyboardController.cc in Sources */,
 				9636A60925833FB400EACAAF /* VmStatusBarView.cc in Sources */,
 				96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */,
@@ -245,6 +267,8 @@
 				96CD6CAC257EF49D00C14FFD /* FileReader.cc in Sources */,
 				9673ECE52580B6000077A867 /* VmTextView.cc in Sources */,
 				96CD6C99257EF04800C14FFD /* main.cc in Sources */,
+				965FE02525836DBC00D834CB /* Editable.cc in Sources */,
+				965FE02E2583755D00D834CB /* VmEditor.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

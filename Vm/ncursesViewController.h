@@ -14,7 +14,7 @@ public:
     void print(char c, const Posn p) override;
     void clearToEOL(const Posn p) override;
     int get() override;
-    
+    int getBackspaceCode() const override;
     ~ncursesViewController();
 };
 

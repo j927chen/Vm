@@ -2,7 +2,6 @@
 #define KeyboardController_h
 
 #include <map>
-#include <memory>
 #include "Controller.h"
 
 class KeyboardController: public Controller {

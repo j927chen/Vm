@@ -33,9 +33,9 @@ public:
     
     virtual bool isEmpty() const = 0;
     
-    virtual size_t getLength() const = 0;
+    virtual int getLength() const = 0;
     
-    virtual size_t getNumOfLines() const = 0;
+    virtual int getNumOfLines() const = 0;
     
     virtual std::unique_ptr<TextIterator> begin() = 0;
     virtual std::unique_ptr<TextIterator> end() = 0;

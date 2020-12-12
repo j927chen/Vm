@@ -11,6 +11,7 @@ class VmText: public Text {
     
 public:
     
+    VmText();
     VmText(std::string text);
     
     class VmTextIterator: public TextIterator {
@@ -48,9 +49,9 @@ public:
     
     bool isEmpty() const override;
     
-    size_t getLength() const override;
+    int getLength() const override;
     
-    size_t getNumOfLines() const override;
+    int getNumOfLines() const override;
     
     std::unique_ptr<TextIterator> begin() override;
     std::unique_ptr<TextIterator> end() override;

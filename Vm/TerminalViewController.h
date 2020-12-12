@@ -15,6 +15,7 @@ public:
     virtual void print(char c, const Posn p) = 0;
     virtual void clearToEOL(const Posn p) = 0;
     virtual int get() = 0;
+    virtual int getBackspaceCode() const = 0;
     virtual ~TerminalViewController();
 };
 

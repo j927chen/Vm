@@ -52,9 +52,18 @@ int VmTextView::getMaxRelativeTextViewRowNum(int textLineNum, const Text &text) 
     return textViewRowNum - 1;
 }
 
+void VmTextView::accept(const NoUpdate &u) {}
+
 void VmTextView::accept(const VmLoadFile &u) {
-    display(*u.text.begin().get(), *u.text.end().get());
+    display(*u.text.beginAtLine(firstDisplayedTextRowNum).get(), *u.text.end().get());
+    moveCursor(u.cursorPosn.x, getMinRelativeTextViewRowNum(u.cursorPosn.y, u.text));
 }
+
+void VmTextView::accept(const VmCommandMode &u) {
+    moveCursor(u.cursorPosn.x, getMinRelativeTextViewRowNum(u.cursorPosn.y, u.text));
+}
+
+void VmTextView::accept(const VmCommandEnterMode &u) {}
 
 void VmTextView::accept(const VmMoveCursorUp &u) {
     if (firstDisplayedTextRowNum > 1 && getMinRelativeTextViewRowNum(u.cursorPosn.y, u.text) <= 5) {
