@@ -16,8 +16,10 @@ public:
     std::unique_ptr<Cursor> insertCharAt(char c, Cursor &cursor) override;
     std::unique_ptr<Cursor> removeCharAt(char c, Cursor &cursor) override;
     
-    std::unique_ptr<Cursor> getForwardMatch(Cursor &cursor, const std::string &s) const override;
-    std::unique_ptr<Cursor> getBackwardMatch(Cursor &cursor, const std::string &s) const override;
+    std::unique_ptr<Cursor> getForwardMatch(const Cursor &cursor, const std::string &s) const override;
+    std::unique_ptr<Cursor> getBackwardMatch(const Cursor &cursor, const std::string &s) const override;
+    
+    std::unique_ptr<Cursor> goToStartOfFirstWordOfLine(const Cursor &cursor) const override;
     
     ~VmEditor();
     

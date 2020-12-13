@@ -6,6 +6,7 @@ class NoUpdate;
 class VmLoadFile;
 class VmCommandMode;
 class VmCommandEnterMode;
+class VmMoveCursor;
 class VmMoveCursorUp;
 class VmMoveCursorDown;
 class VmMoveCursorLeft;
@@ -22,6 +23,7 @@ public:
     virtual void accept(const VmLoadFile &u) = 0;
     virtual void accept(const VmCommandMode &u) = 0;
     virtual void accept(const VmCommandEnterMode &u) = 0;
+    virtual void accept(const VmMoveCursor &u) = 0;
     virtual void accept(const VmMoveCursorUp &u) = 0;
     virtual void accept(const VmMoveCursorDown &u) = 0;
     virtual void accept(const VmMoveCursorLeft &u) = 0;

@@ -38,13 +38,52 @@ public:
     ~VmLoadFile();
 };
 
-// MARK: - Mode
+// MARK: - Cursor
 
-class VmCommandMode: public Update {
+class VmMoveCursor: public Update {
 public:
     const Text &text;
     const Posn cursorPosn;
-    VmCommandMode(const Text &text, const Posn cursorPosn);
+    const Posn previousCursorPosn;
+    
+    void visit(View &v) const override;
+    VmMoveCursor(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    virtual ~VmMoveCursor();
+};
+
+class VmMoveCursorUp: public VmMoveCursor {
+public:
+    VmMoveCursorUp(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    void visit(View &v) const override;
+    ~VmMoveCursorUp();
+};
+
+class VmMoveCursorDown: public VmMoveCursor {
+public:
+    VmMoveCursorDown(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    void visit(View &v) const override;
+    ~VmMoveCursorDown();
+};
+
+class VmMoveCursorLeft: public VmMoveCursor {
+public:
+    VmMoveCursorLeft(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    void visit(View &v) const override;
+    ~VmMoveCursorLeft();
+};
+
+class VmMoveCursorRight: public VmMoveCursor {
+public:
+    VmMoveCursorRight(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    void visit(View &v) const override;
+    ~VmMoveCursorRight();
+};
+
+// MARK: - Mode
+
+class VmCommandMode: public VmMoveCursor {
+public:
+    VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
     void visit(View &v) const override;
     ~VmCommandMode();
 };
@@ -57,41 +96,5 @@ public:
     ~VmCommandEnterMode();
 };
 
-class VmMoveCursor: public Update {
-public:
-    const Text &text;
-    const Posn cursorPosn;
-    
-    VmMoveCursor(const Text &text, const Posn cursorPosn);
-    virtual ~VmMoveCursor();
-};
-
-class VmMoveCursorUp: public VmMoveCursor {
-public:
-    VmMoveCursorUp(const Text &text, const Posn cursorPosn);
-    void visit(View &v) const override;
-    ~VmMoveCursorUp();
-};
-
-class VmMoveCursorDown: public VmMoveCursor {
-public:
-    VmMoveCursorDown(const Text &text, const Posn cursorPosn);
-    void visit(View &v) const override;
-    ~VmMoveCursorDown();
-};
-
-class VmMoveCursorLeft: public VmMoveCursor {
-public:
-    VmMoveCursorLeft(const Text &text, const Posn cursorPosn);
-    void visit(View &v) const override;
-    ~VmMoveCursorLeft();
-};
-
-class VmMoveCursorRight: public VmMoveCursor {
-public:
-    VmMoveCursorRight(const Text &text, const Posn cursorPosn);
-    void visit(View &v) const override;
-    ~VmMoveCursorRight();
-};
 
 #endif 

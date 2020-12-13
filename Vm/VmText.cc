@@ -56,6 +56,11 @@ std::unique_ptr<ConstTextIterator> VmText::ConstVmTextIterator::next() const {
     return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {nextIt});
 }
 
+std::unique_ptr<ConstTextIterator> VmText::ConstVmTextIterator::previous() const {
+    auto previousIt = it - 1;
+    return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {previousIt});
+}
+
 VmText::VmText(): text{""}, numOfLines{0} {}
 
 VmText::VmText(std::string text): text{std::move(text)} {
@@ -82,12 +87,31 @@ std::unique_ptr<ConstTextIterator> VmText::end() const {
 
 std::unique_ptr<ConstTextIterator> VmText::beginAtLine(int ln) const {
     auto it = begin();
-    if (ln > 0) {
-        for (int i = 1; i < ln; it->operator++()) {
-            if (it->operator*() == '\n') ++i;
-        }
+    for (int i = 1; i < ln; it->operator++()) {
+        if (it->operator*() == '\n') ++i;
     }
     return it;
+}
+
+void VmText::advanceToStartOfNextLine(ConstTextIterator &it) const {
+    while (it != *end()) {
+        if (*it == '\n') {
+            ++it;
+            return;
+        }
+        ++it;
+    }
+}
+
+std::unique_ptr<ConstTextIterator> VmText::goBackToStartOfPreviousLine(ConstTextIterator &it) const {
+    bool isOnPreviousLine = false;
+    for (; it != *begin(); --it) {
+        if (it.previous()->operator*() == '\n') {
+            if (isOnPreviousLine) break;
+            isOnPreviousLine = true;
+        }
+    }
+    return it.clone();
 }
 
 std::unique_ptr<ConstTextIterator> VmText::cbegin() {

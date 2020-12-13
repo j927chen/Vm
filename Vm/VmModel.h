@@ -60,6 +60,8 @@ class VmModel: public Model {
     
     class colon_r: public colonCommand {
     public:
+        const std::string fileName;
+        colon_r(const std::string fileName);
         std::unique_ptr<const Update> visit(VmModel &m) const override;
         ~colon_r();
     };
@@ -85,6 +87,8 @@ class VmModel: public Model {
     std::unique_ptr<const Update> update(colon_r c);
     std::unique_ptr<const Update> update(colon_dollar_sign c);
     std::unique_ptr<const Update> update(colon_number c);
+    
+    std::unique_ptr<const colon_r> parseColonRCommand() const;
 
 
 public:

@@ -21,7 +21,7 @@ VmLoadFile::~VmLoadFile() {}
 
 // - MARK: Mode
 
-VmCommandMode::VmCommandMode(const Text &text, const Posn cursorPosn): text{text}, cursorPosn{cursorPosn} {}
+VmCommandMode::VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor(text, std::move(cursorPosn), std::move(previousCursorPosn)) {}
 
 void VmCommandMode::visit(View &v) const { v.accept(*this); }
 
@@ -36,29 +36,31 @@ VmCommandEnterMode::~VmCommandEnterMode() {}
 
 // - MARK: Cursor
 
-VmMoveCursor::VmMoveCursor(const Text &text, const Posn cursorPosn): text{text}, cursorPosn{cursorPosn} {}
+VmMoveCursor::VmMoveCursor(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): text{text}, cursorPosn{cursorPosn}, previousCursorPosn{previousCursorPosn} {}
+
+void VmMoveCursor::visit(View &v) const { v.accept(*this); }
 
 VmMoveCursor::~VmMoveCursor() {}
 
-VmMoveCursorUp::VmMoveCursorUp(const Text &text, const Posn cursorPosn): VmMoveCursor{text, cursorPosn} {}
+VmMoveCursorUp::VmMoveCursorUp(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor{text, cursorPosn, previousCursorPosn} {}
 
 void VmMoveCursorUp::visit(View &v) const { v.accept(*this); }
 
 VmMoveCursorUp::~VmMoveCursorUp() {}
 
-VmMoveCursorDown::VmMoveCursorDown(const Text &text, const Posn cursorPosn): VmMoveCursor{text, cursorPosn} {}
+VmMoveCursorDown::VmMoveCursorDown(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor{text, cursorPosn, previousCursorPosn} {}
 
 void VmMoveCursorDown::visit(View &v) const { v.accept(*this); }
 
 VmMoveCursorDown::~VmMoveCursorDown() {}
 
-VmMoveCursorLeft::VmMoveCursorLeft(const Text &text, const Posn cursorPosn): VmMoveCursor{text, cursorPosn} {}
+VmMoveCursorLeft::VmMoveCursorLeft(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor{text, cursorPosn, previousCursorPosn} {}
 
 void VmMoveCursorLeft::visit(View &v) const { v.accept(*this); }
 
 VmMoveCursorLeft::~VmMoveCursorLeft() {}
 
-VmMoveCursorRight::VmMoveCursorRight(const Text &text, const Posn cursorPosn): VmMoveCursor{text, cursorPosn} {}
+VmMoveCursorRight::VmMoveCursorRight(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor{text, cursorPosn, previousCursorPosn} {}
 
 void VmMoveCursorRight::visit(View &v) const { v.accept(*this); }
 

@@ -47,6 +47,10 @@ void VmStatusBarView::accept(const VmCommandEnterMode &u) {
     terminalViewController.clearToEOL(Posn {x, terminalYTop});
 }
 
+void VmStatusBarView::accept(const VmMoveCursor &u) {
+    displayCursorPosn(u.cursorPosn);
+}
+
 void VmStatusBarView::accept(const VmMoveCursorUp &u) {
     displayCursorPosn(u.cursorPosn);
 }

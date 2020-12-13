@@ -17,6 +17,7 @@ public:
     void accept(const VmLoadFile &u) override;
     void accept(const VmCommandMode &u) override;
     void accept(const VmCommandEnterMode &u) override;
+    void accept(const VmMoveCursor &u) override;
     void accept(const VmMoveCursorUp &u) override;
     void accept(const VmMoveCursorDown &u) override;
     void accept(const VmMoveCursorLeft &u) override;

@@ -24,6 +24,7 @@ public:
     virtual std::unique_ptr<ConstTextIterator> operator--() = 0;
     virtual const char &operator*() const = 0;
     virtual std::unique_ptr<ConstTextIterator> next() const = 0;
+    virtual std::unique_ptr<ConstTextIterator> previous() const = 0;
     virtual ~ConstTextIterator();
 };
 
@@ -44,6 +45,8 @@ public:
     virtual std::unique_ptr<ConstTextIterator> end() const = 0;
     
     virtual std::unique_ptr<ConstTextIterator> beginAtLine(int ln) const = 0;
+    virtual void advanceToStartOfNextLine(ConstTextIterator &it) const = 0;
+    virtual std::unique_ptr<ConstTextIterator> goBackToStartOfPreviousLine(ConstTextIterator &it) const = 0;
     
     virtual std::unique_ptr<ConstTextIterator> cbegin() = 0;
     virtual std::unique_ptr<ConstTextIterator> cend() = 0;

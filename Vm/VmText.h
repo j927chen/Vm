@@ -43,6 +43,7 @@ public:
         std::unique_ptr<ConstTextIterator> operator--() override;
         char const &operator*() const override;
         std::unique_ptr<ConstTextIterator> next() const override;
+        std::unique_ptr<ConstTextIterator> previous() const override;
         
         friend VmText;
     };
@@ -60,6 +61,8 @@ public:
     std::unique_ptr<ConstTextIterator> end() const override;
     
     std::unique_ptr<ConstTextIterator> beginAtLine(int ln) const override;
+    void advanceToStartOfNextLine(ConstTextIterator &it) const override;
+    std::unique_ptr<ConstTextIterator> goBackToStartOfPreviousLine(ConstTextIterator &it) const override;
     
     std::unique_ptr<ConstTextIterator> cbegin() override;
     std::unique_ptr<ConstTextIterator> cend() override;
