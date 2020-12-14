@@ -21,6 +21,14 @@ public:
     std::unique_ptr<const Action> clone() const override;
 };
 
+class numberKeyPressed: public Action {
+public:
+    int num;
+    numberKeyPressed(int num);
+    std::unique_ptr<const Update> visit(Model &m) const override;
+    std::unique_ptr<const Action> clone() const override;
+};
+
 class enterKeyPressed: public Action {
 public:
     std::unique_ptr<const Update> visit(Model &m) const override;

@@ -42,6 +42,13 @@ void VmInsertMode::visit(View &v) const { v.accept(*this); }
 VmInsertMode::~VmInsertMode() {}
 
 
+VmMultiplier::VmMultiplier(int multiplier): multiplier{multiplier} {}
+
+void VmMultiplier::visit(View &v) const { v.accept(*this); }
+
+VmMultiplier::~VmMultiplier() {}
+
+
 // - MARK: Cursor
 
 VmMoveCursor::VmMoveCursor(const Cursor &cursor, const Posn previousCursorPosn): cursor{cursor}, previousCursorPosn{previousCursorPosn} {}

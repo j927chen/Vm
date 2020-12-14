@@ -14,6 +14,15 @@ std::unique_ptr<const Action> otherKeyPressed::clone() const {
 std::unique_ptr<const Update> otherKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const otherKeyPressed>(code)); }
 
 
+numberKeyPressed::numberKeyPressed(int num): num{num} {}
+
+std::unique_ptr<const Action> numberKeyPressed::clone() const {
+    return std::make_unique<const numberKeyPressed>(num);
+}
+
+std::unique_ptr<const Update> numberKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const numberKeyPressed>(num)); }
+
+
 std::unique_ptr<const Action> enterKeyPressed::clone() const {
     return std::make_unique<const enterKeyPressed>(); }
 

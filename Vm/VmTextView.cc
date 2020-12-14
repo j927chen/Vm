@@ -48,6 +48,10 @@ void VmTextView::accept(const VmInsertMode &u) {
     moveCursor(cursorPosn.x, currentRelativeTextViewRowNum);
 }
 
+void VmTextView::accept(const VmMultiplier &u) {}
+
+
+
 void VmTextView::accept(const VmMoveCursor &u) {
     int previousFirstDisplayedTextRowNum = firstDisplayedTextRowNum;
     const Text &text = u.cursor.getText();

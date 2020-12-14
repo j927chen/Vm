@@ -4,7 +4,7 @@
 #include "Cursor.h"
 #include "Update.h"
 
-VmStatusBarView::VmStatusBarView(TerminalViewController &terminalViewController): View{terminalViewController}, terminalXCursorPosn{terminalViewController.getScrWidth() - 11}, terminalYTop{terminalViewController.getScrHeight() - 1} {}
+VmStatusBarView::VmStatusBarView(TerminalViewController &terminalViewController): View{terminalViewController}, terminalXCursorPosn{terminalViewController.getScrWidth() - 15}, terminalXMultiplierPosn{terminalXCursorPosn - 10}, terminalYTop{terminalViewController.getScrHeight() - 1} {}
 
 void VmStatusBarView::displayCursorPosn(const Posn &cursorPosn) {
     int x = terminalXCursorPosn;
@@ -80,31 +80,41 @@ void VmStatusBarView::accept(const VmInsertMode &u) {
     else displayCursorPosn(u.cursor.getPosn());
 }
 
+void VmStatusBarView::accept(const VmMultiplier &u) {
+    if (u.multiplier == 0) clearMultiplier();
+    else {
+        const std::string multiplier = std::to_string(u.multiplier);
+        int x = terminalXMultiplierPosn;
+        for (auto it = multiplier.begin(); it != multiplier.end(); ++it) {
+            terminalViewController.print(*it, Posn {x++, terminalYTop});
+        }
+    }
+}
+
 void VmStatusBarView::accept(const VmMoveCursor &u) {
     if (u.cursor.getPosn().x == 0 || u.cursor.get() == '\n') {
         displayCursorPosn(u.cursor.getPosn(), standardZeroCursorColReplacement);
     } else displayCursorPosn(u.cursor.getPosn());
+    clearMultiplier();
 }
 
 void VmStatusBarView::accept(const VmMoveCursorUp &u) {
-    if (u.cursor.getPosn().x == 0 || u.cursor.get() == '\n') {
-        displayCursorPosn(u.cursor.getPosn(), standardZeroCursorColReplacement);
-    } else displayCursorPosn(u.cursor.getPosn());
+    accept(static_cast<const VmMoveCursor&>(u));
 }
 void VmStatusBarView::accept(const VmMoveCursorDown &u) {
-    if (u.cursor.getPosn().x == 0 || u.cursor.get() == '\n') {
-        displayCursorPosn(u.cursor.getPosn(), standardZeroCursorColReplacement);
-    } else displayCursorPosn(u.cursor.getPosn());
+    accept(static_cast<const VmMoveCursor&>(u));
 }
 void VmStatusBarView::accept(const VmMoveCursorLeft &u) {
-    if (u.cursor.getPosn().x == 0 || u.cursor.get() == '\n') {
-        displayCursorPosn(u.cursor.getPosn(), standardZeroCursorColReplacement);
-    } else displayCursorPosn(u.cursor.getPosn());
+    accept(static_cast<const VmMoveCursor&>(u));
 }
 void VmStatusBarView::accept(const VmMoveCursorRight &u) {
-    if (u.cursor.getPosn().x == 0 || u.cursor.get() == '\n') {
-        displayCursorPosn(u.cursor.getPosn(), standardZeroCursorColReplacement);
-    } else displayCursorPosn(u.cursor.getPosn());
+    accept(static_cast<const VmMoveCursor&>(u));
+}
+
+void VmStatusBarView::clearMultiplier() {
+    for (int x = terminalXMultiplierPosn; x < terminalXCursorPosn; ++x) {
+        terminalViewController.print(' ', Posn {x, terminalYTop});
+    }
 }
 
 VmStatusBarView::~VmStatusBarView() {}

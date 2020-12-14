@@ -104,6 +104,14 @@ public:
     ~VmInsertMode();
 };
 
+class VmMultiplier: public Update {
+public:
+    int multiplier;
+    VmMultiplier(int multiplier);
+    void visit(View &v) const override;
+    ~VmMultiplier();
+};
+
 
 
 #endif 

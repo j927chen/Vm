@@ -8,9 +8,9 @@
 #include "Action.h"
 #include "Update.h"
 
-VmModel::VmModel(): fileName{""}, mode{COMMAND}, editor{std::make_unique<VmEditor>()}, cursor{std::make_unique<VmCursor>(editor->getText())}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()} {}
+VmModel::VmModel(): fileName{""}, mode{COMMAND}, editor{std::make_unique<VmEditor>()}, cursor{std::make_unique<VmCursor>(editor->getText())}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()}, typedCommand{""}, multiplier{0} {}
 
-VmModel::VmModel(std::string fileName): fileName{std::move(fileName)}, mode{COMMAND}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()} {
+VmModel::VmModel(std::string fileName): fileName{std::move(fileName)}, mode{COMMAND}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()}, typedCommand{""}, multiplier{0} {
     editor = std::make_unique<VmEditor>(reader->read(this->fileName));
     cursor = std::make_unique<VmCursor>(editor->getText());
 }
@@ -24,6 +24,28 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const otherKeyPres
         case INSERT: {
             const Posn previousCursorPosn = cursor->getPosn();
             cursor = editor->insertCharAt(a->code, *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const numberKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            if (multiplier == 0 && a->num == 0) {
+                // GO TO START OF LINE
+                return std::make_unique<NoUpdate>();
+            }
+            multiplier = multiplier * 10 + a->num;
+            return std::make_unique<const VmMultiplier>(multiplier);
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand(a->num + '0');
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt(a->num + '0', *cursor);
             return defaultInsertUpdate(std::move(previousCursorPosn));
         }
         case REPLACE:
@@ -51,6 +73,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const colonKeyPres
     switch (mode) {
         case COMMAND:
             mode = COMMAND_ENTER;
+            multiplier = 0;
             return pushBackCharInTypedCommand(':');
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand(':');
@@ -100,11 +123,14 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMark
     }
 }
 
+// MARK: - h
+
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const hKeyPressed> a) {
     switch (mode) {
         case COMMAND: {
             const Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveLeftByOne();
+            if (multiplier == 0) cursor->moveLeftByOne();
+            for (; multiplier > 0; --multiplier) cursor->moveLeftByOne();
             return std::make_unique<VmMoveCursorLeft>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
@@ -141,7 +167,8 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const jKeyPressed>
     switch (mode) {
         case COMMAND: {
             Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveDownByOneNoNewLine();
+            if (multiplier == 0) cursor->moveDownByOneNoNewLine();
+            for (; multiplier > 0; --multiplier) cursor->moveDownByOneNoNewLine();
             return std::make_unique<VmMoveCursorDown>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
@@ -160,7 +187,8 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const kKeyPressed>
     switch (mode) {
         case COMMAND: {
             const Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveUpByOneNoNewLine();
+            if (multiplier == 0) cursor->moveUpByOneNoNewLine();
+            for (; multiplier > 0; --multiplier) cursor->moveUpByOneNoNewLine();
             return std::make_unique<VmMoveCursorUp>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
@@ -180,7 +208,8 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const lKeyPressed>
     switch (mode) {
         case COMMAND: {
             const Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveRightByOneNoNewLine();
+            if (multiplier == 0) cursor->moveRightByOneNoNewLine();
+            for (; multiplier > 0; --multiplier) cursor->moveRightByOneNoNewLine();
             return std::unique_ptr<const VmMoveCursorRight>(new VmMoveCursorRight {*cursor, previousCursorPosn});
         }
         case COMMAND_ENTER:
@@ -195,17 +224,21 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const lKeyPressed>
     }
 }
 
+// MARK: - ESCAPE
+
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const escKeyPressed> a) {
     switch (mode) {
         case COMMAND:
-            return std::make_unique<NoUpdate>();
+            multiplier = 0;
+            return std::make_unique<const VmMultiplier>(0);
         case COMMAND_ENTER:
-            typedCommand = "";
             mode = COMMAND;
+            typedCommand = "";
+            multiplier = 0;
             return defaultUpdate();
         case INSERT:
             mode = COMMAND;
-            // CHECK FOR LINE RECORDINGS
+            // CHECK FOR LINE RECORDINGS && MULTIPLIER
             cursor->moveLeftByOne();
             cursor->resetUnboundedPosn();
             return defaultUpdate();
@@ -243,6 +276,8 @@ const std::string &VmModel::getFileName() const { return fileName; }
 const Editor &VmModel::getEditor() const { return *editor; }
 const Cursor &VmModel::getCursor() const { return *cursor; }
 
+// MARK: - Helpers
+
 std::unique_ptr<const Update> VmModel::pushBackCharInTypedCommand(char c) {
     typedCommand.push_back(c);
     return std::make_unique<VmCommandEnterMode>(typedCommand);
@@ -265,6 +300,7 @@ std::unique_ptr<const Update> VmModel::updateForTypedCommand() {
     }
     mode = COMMAND;
     typedCommand.erase();
+    multiplier = 0;
     return update;
 }
 

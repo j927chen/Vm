@@ -8,6 +8,16 @@ std::map<int, std::unique_ptr<Action>> VmKeyboardController::initializeVmKeyMapp
     map[27] = std::make_unique<escKeyPressed>();
     map[58] = std::make_unique<colonKeyPressed>();
     map[47] = std::make_unique<forwardSlashKeyPressed>();
+    map[48] = std::make_unique<numberKeyPressed>(0);
+    map[49] = std::make_unique<numberKeyPressed>(1);
+    map[50] = std::make_unique<numberKeyPressed>(2);
+    map[51] = std::make_unique<numberKeyPressed>(3);
+    map[52] = std::make_unique<numberKeyPressed>(4);
+    map[53] = std::make_unique<numberKeyPressed>(5);
+    map[54] = std::make_unique<numberKeyPressed>(6);
+    map[55] = std::make_unique<numberKeyPressed>(7);
+    map[56] = std::make_unique<numberKeyPressed>(8);
+    map[57] = std::make_unique<numberKeyPressed>(9);
     map[63] = std::make_unique<questionMarkKeyPressed>();
     map[104] = std::make_unique<hKeyPressed>();
     map[105] = std::make_unique<iKeyPressed>();

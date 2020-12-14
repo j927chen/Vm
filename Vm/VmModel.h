@@ -25,6 +25,7 @@ class VmModel: public Model {
     std::unique_ptr<Reader> reader;
     std::unique_ptr<Writer> writer;
     std::string typedCommand;
+    int multiplier;
     
     std::unique_ptr<const Update> pushBackCharInTypedCommand(char c);
     std::unique_ptr<const Update> updateForTypedCommand();
@@ -108,6 +109,7 @@ public:
     VmModel(std::string filename);
     
     std::unique_ptr<const Update> update(std::unique_ptr<const otherKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const numberKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const enterKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const colonKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) override;
