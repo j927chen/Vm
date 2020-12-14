@@ -37,6 +37,11 @@ bool VmText::ConstVmTextIterator::operator!=(const ConstTextIterator &other) con
     return it != constTextIteratorOther.it;
 }
 
+bool VmText::ConstVmTextIterator::operator==(const ConstTextIterator &other) const {
+    const ConstVmTextIterator &constTextIteratorOther = dynamic_cast<const ConstVmTextIterator&>(other);
+    return it == constTextIteratorOther.it;
+}
+
 std::unique_ptr<ConstTextIterator> VmText::ConstVmTextIterator::operator++() {
     ++it;
     return std::unique_ptr<ConstVmTextIterator>(new ConstVmTextIterator {it});

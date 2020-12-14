@@ -39,6 +39,7 @@ public:
         std::unique_ptr<ConstTextIterator> clone() const override;
         bool operator=(const ConstTextIterator &other) const override;
         bool operator!=(const ConstTextIterator &other) const override;
+        bool operator==(const ConstTextIterator &other) const override;
         std::unique_ptr<ConstTextIterator> operator++() override;
         std::unique_ptr<ConstTextIterator> operator--() override;
         char const &operator*() const override;

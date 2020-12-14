@@ -55,6 +55,36 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const colonKeyPres
     }
 }
 
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const forwardSlashKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            mode = COMMAND_ENTER;
+            return pushBackCharInTypedCommand('/');
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('/');
+        case INSERT:
+            return std::make_unique<NoUpdate>();
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMarkKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            mode = COMMAND_ENTER;
+            return pushBackCharInTypedCommand('?');
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('?');
+        case INSERT:
+            return std::make_unique<NoUpdate>();
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const hKeyPressed> a) {
     switch (mode) {
         case COMMAND: {
@@ -127,7 +157,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const escKeyPresse
         case COMMAND_ENTER:
             typedCommand = "";
             mode = COMMAND;
-            return std::make_unique<VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
         case INSERT:
             return std::make_unique<NoUpdate>();
         case REPLACE:
@@ -143,7 +173,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const backspaceKey
             typedCommand.pop_back();
             if (typedCommand.empty()) {
                 mode = COMMAND;
-                return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+                return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
             }
             return std::make_unique<VmCommandEnterMode>(typedCommand);
         case INSERT:
@@ -166,15 +196,25 @@ std::unique_ptr<const Update> VmModel::updateForTypedCommand() {
     std::unique_ptr<const Update> update;
     try {
         update = parseColonCommand()->visit(*this);
-    } catch (...) {
-        update = std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+        } catch (...) {
+        try {
+            update = parseForwardSlashCommand();
+        } catch (...) {
+            try {
+                update = parseQuestionMarkCommand();
+            } catch (...) {
+                update = std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+            }
+        }
     }
     mode = COMMAND;
     typedCommand.erase();
     return update;
 }
 
-const std::unique_ptr<const VmModel::colonCommand> VmModel::parseColonCommand() const {
+std::unique_ptr<const VmModel::colonCommand> VmModel::parseColonCommand() const {
+    if (typedCommand.empty() || typedCommand.at(0) != ':') throw parse_error {};
+    
     // remove the spaces from the input
     std::string typedCommandCopy = typedCommand;
     typedCommandCopy.erase(remove_if(typedCommandCopy.begin(), typedCommandCopy.end(), isspace), typedCommandCopy.end());
@@ -191,13 +231,54 @@ const std::unique_ptr<const VmModel::colonCommand> VmModel::parseColonCommand() 
     }
 }
 
+std::unique_ptr<const Update> VmModel::parseForwardSlashCommand() {
+    if (typedCommand.empty() || typedCommand.at(0) != '/') throw parse_error {};
+    const std::string searchPattern = typedCommand.substr(1, typedCommand.length() - 1);
+    std::unique_ptr<const Searchable::SearchResult> result;
+    if (searchPattern.empty()) {
+        try {
+            result = editor->getForwardMatch(*cursor, editor->getPreviousSearch()->searchPattern);
+        } catch (...) {
+            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "No previous regular expression");
+        }
+    } else {
+        result = editor->getForwardMatch(*cursor, searchPattern);
+    }
+    return updateForSearchPatternCommand(*result);
+}
+
+std::unique_ptr<const Update> VmModel::parseQuestionMarkCommand() {
+    if (typedCommand.empty() || typedCommand.at(0) != '?') throw parse_error {};
+    const std::string searchPattern = typedCommand.substr(1, typedCommand.length() - 1);
+    std::unique_ptr<const Searchable::SearchResult> result;
+    if (searchPattern.empty()) {
+        try {
+            result = editor->getBackwardMatch(*cursor, editor->getPreviousSearch()->searchPattern);
+        } catch (...) {
+            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "No previous regular expression");
+        }
+    } else result = editor->getBackwardMatch(*cursor, searchPattern);
+    return updateForSearchPatternCommand(*result);
+}
+
+std::unique_ptr<const Update> VmModel::updateForSearchPatternCommand(const Searchable::SearchResult &result) {
+    const Posn previousCursorPosn = cursor->getPosn();
+    std::string message {};
+    if (result.matchFound) {
+        cursor = result.cursor->clone();
+        if (result.loop == 1) message = "search hit BOTTOM, continuing at TOP";
+        else if (result.loop == -1) message = "search hit TOP, continuing at BOTTOM";
+    } else message = "Pattern not found";
+    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, message);
+}
+
 std::unique_ptr<const VmModel::colon_r> VmModel::parseColonRCommand() const {
-    if (typedCommand.empty() || typedCommand.length() < 2 || typedCommand.at(0) != ':') throw;
+    if (typedCommand.empty() || typedCommand.length() < 2 || typedCommand.at(0) != ':') throw parse_error {};
     auto it = ++++typedCommand.begin();
     for (; it != typedCommand.end(); ++it) {
         if (!isspace(*it)) {
             if (*it == 'r') break;
-            throw;
+            throw parse_error {};
         }
     }
     std::string fileName {};
@@ -227,7 +308,7 @@ std::unique_ptr<const Update> VmModel::update(colon_w c) {
     try {
         writer->write(fileName, editor->getText());
     } catch (Writer::invalidPath) {
-        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
     }
     return std::make_unique<const VmLoadFile>(fileName, cursor->getPosn(), editor->getText());
 }
@@ -236,7 +317,7 @@ std::unique_ptr<const Update> VmModel::update(colon_wq c) {
     try {
         writer->write(fileName, editor->getText());
     } catch (Writer::invalidPath) {
-        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
     }
     return std::make_unique<const Terminate>();
 }
@@ -251,22 +332,23 @@ std::unique_ptr<const Update> VmModel::update(colon_r c) {
             
         }
     }
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn());
+    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), '"' + c.fileName + '"');
 }
 
 std::unique_ptr<const Update> VmModel::update(colon_dollar_sign c) {
     Posn previousCursorPosn = cursor->getPosn();
     cursor->setPosn(Posn {1, editor->getText().getNumOfLines()});
     cursor = editor->goToStartOfFirstWordOfLine(*cursor);
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn);
+    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, "");
 }
 
 std::unique_ptr<const Update> VmModel::update(colon_number c) {
     Posn previousCursorPosn = cursor->getPosn();
     cursor->setPosn(Posn {1, c.ln});
     cursor = editor->goToStartOfFirstWordOfLine(*cursor);
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn);
+    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, "");
 }
+
 
 VmModel::~VmModel() {}
 

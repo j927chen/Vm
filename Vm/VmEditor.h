@@ -3,8 +3,14 @@
 
 #include "Editor.h"
 
+class ConstTextIterator;
+
 class VmEditor: public Editor {
+    
     std::unique_ptr<Text> text;
+    std::unique_ptr<const SearchRequest> previousSearch;
+    
+    bool matches(const std::string &searchPattern, const ConstTextIterator &begin, const ConstTextIterator &end) const;
     
 public:
     
@@ -13,11 +19,12 @@ public:
     
     const Text &getText() const override;
     
-    std::unique_ptr<Cursor> insertCharAt(char c, Cursor &cursor) override;
-    std::unique_ptr<Cursor> removeCharAt(char c, Cursor &cursor) override;
+    std::unique_ptr<Cursor> insertCharAt(char c, const Cursor &cursor) override;
+    std::unique_ptr<Cursor> removeCharAt(char c, const Cursor &cursor) override;
     
-    std::unique_ptr<Cursor> getForwardMatch(const Cursor &cursor, const std::string &s) const override;
-    std::unique_ptr<Cursor> getBackwardMatch(const Cursor &cursor, const std::string &s) const override;
+    std::unique_ptr<const SearchRequest> getPreviousSearch() const override;
+    std::unique_ptr<SearchResult> getForwardMatch(const Cursor &cursor, const std::string &searchPattern) override;
+    std::unique_ptr<SearchResult> getBackwardMatch(const Cursor &cursor, const std::string &searchPattern) override;
     
     std::unique_ptr<Cursor> goToStartOfFirstWordOfLine(const Cursor &cursor) const override;
     

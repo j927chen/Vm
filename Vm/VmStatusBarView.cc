@@ -35,6 +35,10 @@ void VmStatusBarView::accept(const VmLoadFile &u) {
 
 void VmStatusBarView::accept(const VmCommandMode &u) {
     terminalViewController.clearToEOL(Posn {0, terminalYTop});
+    int x = 0;
+    for (auto it = u.message.begin(); it != u.message.end(); ++it) {
+        terminalViewController.print(*it, Posn {x++, terminalYTop});
+    }
     displayCursorPosn(u.cursorPosn);
 }
 

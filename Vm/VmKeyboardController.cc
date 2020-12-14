@@ -7,6 +7,8 @@ std::map<int, std::unique_ptr<Action>> VmKeyboardController::initializeVmKeyMapp
     map[10] = std::make_unique<enterKeyPressed>();
     map[27] = std::make_unique<escKeyPressed>();
     map[58] = std::make_unique<colonKeyPressed>();
+    map[47] = std::make_unique<forwardSlashKeyPressed>();
+    map[63] = std::make_unique<questionMarkKeyPressed>();
     map[104] = std::make_unique<hKeyPressed>();
     map[106] = std::make_unique<jKeyPressed>();
     map[107] = std::make_unique<kKeyPressed>();

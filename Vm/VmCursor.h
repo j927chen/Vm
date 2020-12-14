@@ -18,7 +18,10 @@ class VmCursor: public Cursor {
 public:
     VmCursor(const Text &text);
     VmCursor(const VmCursor &other);
+    VmCursor(const Text &text, const ConstTextIterator &it);
     const Posn getPosn() const override;
+    const ConstTextIterator &getIt() const override;
+    const Text &getText() const override;
     char get() const override;
     char next() const override;
     void setPosn(const Posn p) override;

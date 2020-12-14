@@ -83,7 +83,8 @@ public:
 
 class VmCommandMode: public VmMoveCursor {
 public:
-    VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    const std::string message;
+    VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn, const std::string message);
     void visit(View &v) const override;
     ~VmCommandMode();
 };

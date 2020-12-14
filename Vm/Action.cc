@@ -27,6 +27,18 @@ std::unique_ptr<const Action> colonKeyPressed::clone() const {
     return std::make_unique<const colonKeyPressed>(); }
 
 
+std::unique_ptr<const Update> forwardSlashKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const forwardSlashKeyPressed>()); }
+
+std::unique_ptr<const Action> forwardSlashKeyPressed::clone() const {
+    return std::make_unique<const forwardSlashKeyPressed>(); }
+
+
+std::unique_ptr<const Update> questionMarkKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const questionMarkKeyPressed>()); }
+
+std::unique_ptr<const Action> questionMarkKeyPressed::clone() const {
+    return std::make_unique<const questionMarkKeyPressed>(); }
+
+
 std::unique_ptr<const Update> hKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const hKeyPressed>()); }
 
 std::unique_ptr<const Action> hKeyPressed::clone() const {

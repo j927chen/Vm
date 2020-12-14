@@ -2,7 +2,9 @@
 #define VmModel_h
 
 #include <string>
+
 #include "Model.h"
+#include "Searchable.h"
 
 class Editor;
 class Reader;
@@ -25,6 +27,8 @@ class VmModel: public Model {
     
     std::unique_ptr<const Update> pushBackCharInTypedCommand(char c);
     std::unique_ptr<const Update> updateForTypedCommand();
+    std::unique_ptr<const Update> updateForSearchPatternCommand(const Searchable::SearchResult &result);
+    
     
     class colonCommand {
     public:
@@ -32,7 +36,9 @@ class VmModel: public Model {
         virtual ~colonCommand();
     };
     
-    const std::unique_ptr<const colonCommand> parseColonCommand() const;
+    std::unique_ptr<const colonCommand> parseColonCommand() const;
+    std::unique_ptr<const Update> parseForwardSlashCommand();
+    std::unique_ptr<const Update> parseQuestionMarkCommand();
     
     class colon_q: public colonCommand {
     public:
@@ -80,6 +86,8 @@ class VmModel: public Model {
         ~colon_number();
     };
     
+    class parse_error{};
+    
     std::unique_ptr<const Update> update(colon_q c);
     std::unique_ptr<const Update> update(colon_q_exclaimation_mark c);
     std::unique_ptr<const Update> update(colon_w c);
@@ -98,6 +106,8 @@ public:
     std::unique_ptr<const Update> update(std::unique_ptr<const otherKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const enterKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const colonKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const questionMarkKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const jKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const kKeyPressed> a) override;

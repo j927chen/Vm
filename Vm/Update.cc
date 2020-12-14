@@ -21,7 +21,7 @@ VmLoadFile::~VmLoadFile() {}
 
 // - MARK: Mode
 
-VmCommandMode::VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn): VmMoveCursor(text, std::move(cursorPosn), std::move(previousCursorPosn)) {}
+VmCommandMode::VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn, const std::string message): VmMoveCursor(text, std::move(cursorPosn), std::move(previousCursorPosn)), message{std::move(message)} {}
 
 void VmCommandMode::visit(View &v) const { v.accept(*this); }
 

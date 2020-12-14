@@ -20,6 +20,7 @@ public:
     virtual std::unique_ptr<ConstTextIterator> clone() const = 0;
     virtual bool operator=(const ConstTextIterator &other) const = 0;
     virtual bool operator!=(const ConstTextIterator &other) const = 0;
+    virtual bool operator==(const ConstTextIterator &other) const = 0;
     virtual std::unique_ptr<ConstTextIterator> operator++() = 0;
     virtual std::unique_ptr<ConstTextIterator> operator--() = 0;
     virtual const char &operator*() const = 0;
