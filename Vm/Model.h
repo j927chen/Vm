@@ -13,6 +13,7 @@ class colonKeyPressed;
 class forwardSlashKeyPressed;
 class questionMarkKeyPressed;
 class hKeyPressed;
+class iKeyPressed;
 class jKeyPressed;
 class kKeyPressed;
 class lKeyPressed;
@@ -27,6 +28,7 @@ public:
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const questionMarkKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) = 0;
+    virtual std::unique_ptr<const Update> update(std::unique_ptr<const iKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const jKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const kKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const lKeyPressed> a) = 0;

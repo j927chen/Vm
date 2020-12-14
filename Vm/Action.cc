@@ -43,7 +43,13 @@ std::unique_ptr<const Update> hKeyPressed::visit(Model &m) const { return m.upda
 
 std::unique_ptr<const Action> hKeyPressed::clone() const {
     return std::make_unique<const hKeyPressed>(); }
+
     
+std::unique_ptr<const Update> iKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const iKeyPressed>()); }
+
+std::unique_ptr<const Action> iKeyPressed::clone() const {
+    return std::make_unique<const iKeyPressed>(); }
+
     
 std::unique_ptr<const Update> jKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const jKeyPressed>()); }
 

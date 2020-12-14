@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
     
     std::unique_ptr<Model> model {argc == 1 ? new VmModel {} : new VmModel {argv[1]}};
     
-    auto load = std::unique_ptr<VmLoadFile>(new VmLoadFile{model->getFileName(), model->getCursor().getPosn(), model->getEditor().getText()});
+    auto load = std::unique_ptr<VmLoadFile>(new VmLoadFile{model->getFileName(), model->getCursor(), model->getEditor().getText()});
     textView->accept(*load);
     statusView->accept(*load);
     terminalViewController->moveCursorToFinalPosn();

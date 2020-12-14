@@ -21,8 +21,11 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const otherKeyPres
             return std::make_unique<NoUpdate>();
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand(a->code);
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt(a->code, *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -34,8 +37,11 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const enterKeyPres
             return std::make_unique<NoUpdate>();
         case COMMAND_ENTER:
             return updateForTypedCommand();
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('\n', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -48,8 +54,11 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const colonKeyPres
             return pushBackCharInTypedCommand(':');
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand(':');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt(':', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -63,8 +72,11 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const forwardSlash
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('/');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('/', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -78,8 +90,11 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMark
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('?');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('?', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -88,14 +103,35 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMark
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const hKeyPressed> a) {
     switch (mode) {
         case COMMAND: {
-            Posn previousCursorPosn = cursor->getPosn();
+            const Posn previousCursorPosn = cursor->getPosn();
             cursor->moveLeftByOne();
-            return std::make_unique<VmMoveCursorLeft>(editor->getText(), cursor->getPosn(), previousCursorPosn);
+            return std::make_unique<VmMoveCursorLeft>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('h');
-        case INSERT:
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('h', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
             return std::make_unique<NoUpdate>();
+    }
+}
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const iKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            mode = INSERT;
+            // CHECK FOR MULTIPLIER
+            return std::make_unique<const VmInsertMode>(*cursor, cursor->getPosn());
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('i');
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('i', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -105,13 +141,16 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const jKeyPressed>
     switch (mode) {
         case COMMAND: {
             Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveDownByOne();
-            return std::make_unique<VmMoveCursorDown>(editor->getText(), cursor->getPosn(), previousCursorPosn);
+            cursor->moveDownByOneNoNewLine();
+            return std::make_unique<VmMoveCursorDown>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('j');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('j', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -120,14 +159,17 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const jKeyPressed>
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const kKeyPressed> a) {
     switch (mode) {
         case COMMAND: {
-            Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveUpByOne();
-            return std::make_unique<VmMoveCursorUp>(editor->getText(), cursor->getPosn(), previousCursorPosn);
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor->moveUpByOneNoNewLine();
+            return std::make_unique<VmMoveCursorUp>(*cursor, previousCursorPosn);
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('k');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('k', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -137,14 +179,17 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const kKeyPressed>
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const lKeyPressed> a) {
     switch (mode) {
         case COMMAND: {
-            Posn previousCursorPosn = cursor->getPosn();
-            cursor->moveRightByOne();
-            return std::unique_ptr<const VmMoveCursorRight>(new VmMoveCursorRight {editor->getText(), cursor->getPosn(), previousCursorPosn});
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor->moveRightByOneNoNewLine();
+            return std::unique_ptr<const VmMoveCursorRight>(new VmMoveCursorRight {*cursor, previousCursorPosn});
         }
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand('l');
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('l', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -157,9 +202,13 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const escKeyPresse
         case COMMAND_ENTER:
             typedCommand = "";
             mode = COMMAND;
-            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+            return defaultUpdate();
         case INSERT:
-            return std::make_unique<NoUpdate>();
+            mode = COMMAND;
+            // CHECK FOR LINE RECORDINGS
+            cursor->moveLeftByOne();
+            cursor->resetUnboundedPosn();
+            return defaultUpdate();
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
@@ -173,15 +222,22 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const backspaceKey
             typedCommand.pop_back();
             if (typedCommand.empty()) {
                 mode = COMMAND;
-                return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+                return defaultUpdate();
             }
             return std::make_unique<VmCommandEnterMode>(typedCommand);
-        case INSERT:
-            return std::make_unique<NoUpdate>();
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            if (previousCursorPosn != Posn {} && previousCursorPosn != Posn {1, 1}) {
+                cursor = editor->removeCharAt(*cursor->clonePrevious());
+            }
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
         case REPLACE:
             return std::make_unique<NoUpdate>();
     }
 }
+
+// MARK: - Accessors
 
 const std::string &VmModel::getFileName() const { return fileName; }
 const Editor &VmModel::getEditor() const { return *editor; }
@@ -203,7 +259,7 @@ std::unique_ptr<const Update> VmModel::updateForTypedCommand() {
             try {
                 update = parseQuestionMarkCommand();
             } catch (...) {
-                update = std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+                update = defaultUpdate();
             }
         }
     }
@@ -239,7 +295,7 @@ std::unique_ptr<const Update> VmModel::parseForwardSlashCommand() {
         try {
             result = editor->getForwardMatch(*cursor, editor->getPreviousSearch()->searchPattern);
         } catch (...) {
-            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "No previous regular expression");
+            return std::make_unique<const VmCommandMode>(*cursor, cursor->getPosn(), "No previous regular expression");
         }
     } else {
         result = editor->getForwardMatch(*cursor, searchPattern);
@@ -255,7 +311,7 @@ std::unique_ptr<const Update> VmModel::parseQuestionMarkCommand() {
         try {
             result = editor->getBackwardMatch(*cursor, editor->getPreviousSearch()->searchPattern);
         } catch (...) {
-            return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "No previous regular expression");
+            return std::make_unique<const VmCommandMode>(*cursor, cursor->getPosn(), "No previous regular expression");
         }
     } else result = editor->getBackwardMatch(*cursor, searchPattern);
     return updateForSearchPatternCommand(*result);
@@ -269,7 +325,7 @@ std::unique_ptr<const Update> VmModel::updateForSearchPatternCommand(const Searc
         if (result.loop == 1) message = "search hit BOTTOM, continuing at TOP";
         else if (result.loop == -1) message = "search hit TOP, continuing at BOTTOM";
     } else message = "Pattern not found";
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, message);
+    return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, message);
 }
 
 std::unique_ptr<const VmModel::colon_r> VmModel::parseColonRCommand() const {
@@ -308,16 +364,16 @@ std::unique_ptr<const Update> VmModel::update(colon_w c) {
     try {
         writer->write(fileName, editor->getText());
     } catch (Writer::invalidPath) {
-        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+        return defaultUpdate();
     }
-    return std::make_unique<const VmLoadFile>(fileName, cursor->getPosn(), editor->getText());
+    return std::make_unique<const VmLoadFile>(fileName, *cursor, editor->getText());
 }
 
 std::unique_ptr<const Update> VmModel::update(colon_wq c) {
     try {
         writer->write(fileName, editor->getText());
     } catch (Writer::invalidPath) {
-        return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), "");
+        return defaultUpdate();
     }
     return std::make_unique<const Terminate>();
 }
@@ -332,21 +388,21 @@ std::unique_ptr<const Update> VmModel::update(colon_r c) {
             
         }
     }
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), cursor->getPosn(), '"' + c.fileName + '"');
+    return std::make_unique<const VmCommandMode>(*cursor, cursor->getPosn(), '"' + c.fileName + '"');
 }
 
 std::unique_ptr<const Update> VmModel::update(colon_dollar_sign c) {
     Posn previousCursorPosn = cursor->getPosn();
     cursor->setPosn(Posn {1, editor->getText().getNumOfLines()});
     cursor = editor->goToStartOfFirstWordOfLine(*cursor);
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, "");
+    return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
 }
 
 std::unique_ptr<const Update> VmModel::update(colon_number c) {
     Posn previousCursorPosn = cursor->getPosn();
     cursor->setPosn(Posn {1, c.ln});
     cursor = editor->goToStartOfFirstWordOfLine(*cursor);
-    return std::make_unique<const VmCommandMode>(editor->getText(), cursor->getPosn(), previousCursorPosn, "");
+    return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
 }
 
 
@@ -407,3 +463,15 @@ std::unique_ptr<const Update> VmModel::colon_number::visit(VmModel &m) const {
 }
 
 VmModel::colon_number::~colon_number() {}
+
+std::unique_ptr<const Update> VmModel::defaultUpdate() {
+    return std::make_unique<const VmCommandMode>(*cursor, cursor->getPosn(), "");
+}
+
+std::unique_ptr<const Update> VmModel::defaultInsertUpdate(const Posn previousCursorPosn) {
+    return std::make_unique<const VmInsertMode>(*cursor, std::move(previousCursorPosn));
+}
+
+std::unique_ptr<const Update> VmModel::noUpdate() {
+    return std::make_unique<const NoUpdate>();
+}

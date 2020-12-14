@@ -6,6 +6,7 @@
 
 class View;
 class Text;
+class Cursor;
 
 class Update {
 public:
@@ -30,10 +31,10 @@ public:
 class VmLoadFile: public Update {
 public:
     const std::string &fileName;
-    const Posn cursorPosn;
+    const Cursor &cursor;
     const Text &text;
     
-    VmLoadFile(const std::string &filename, const Posn cursorPosn, const Text &text);
+    VmLoadFile(const std::string &filename, const Cursor &cursor, const Text &text);
     void visit(View &v) const override;
     ~VmLoadFile();
 };
@@ -42,39 +43,38 @@ public:
 
 class VmMoveCursor: public Update {
 public:
-    const Text &text;
-    const Posn cursorPosn;
+    const Cursor &cursor;
     const Posn previousCursorPosn;
     
     void visit(View &v) const override;
-    VmMoveCursor(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    VmMoveCursor(const Cursor &cursor, const Posn previousCursorPosn);
     virtual ~VmMoveCursor();
 };
 
 class VmMoveCursorUp: public VmMoveCursor {
 public:
-    VmMoveCursorUp(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    VmMoveCursorUp(const Cursor &cursor, const Posn previousCursorPosn);
     void visit(View &v) const override;
     ~VmMoveCursorUp();
 };
 
 class VmMoveCursorDown: public VmMoveCursor {
 public:
-    VmMoveCursorDown(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    VmMoveCursorDown(const Cursor &cursor, const Posn previousCursorPosn);
     void visit(View &v) const override;
     ~VmMoveCursorDown();
 };
 
 class VmMoveCursorLeft: public VmMoveCursor {
 public:
-    VmMoveCursorLeft(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    VmMoveCursorLeft(const Cursor &cursor, const Posn previousCursorPosn);
     void visit(View &v) const override;
     ~VmMoveCursorLeft();
 };
 
 class VmMoveCursorRight: public VmMoveCursor {
 public:
-    VmMoveCursorRight(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn);
+    VmMoveCursorRight(const Cursor &cursor, const Posn previousCursorPosn);
     void visit(View &v) const override;
     ~VmMoveCursorRight();
 };
@@ -84,7 +84,7 @@ public:
 class VmCommandMode: public VmMoveCursor {
 public:
     const std::string message;
-    VmCommandMode(const Text &text, const Posn cursorPosn, const Posn previousCursorPosn, const std::string message);
+    VmCommandMode(const Cursor &cursor, const Posn previousCursorPosn, const std::string message);
     void visit(View &v) const override;
     ~VmCommandMode();
 };
@@ -96,6 +96,14 @@ public:
     void visit(View &v) const override;
     ~VmCommandEnterMode();
 };
+
+class VmInsertMode: public VmMoveCursor {
+public:
+    VmInsertMode(const Cursor &cursor, const Posn previousCursorPosn);
+    void visit(View &v) const override;
+    ~VmInsertMode();
+};
+
 
 
 #endif 

@@ -1,6 +1,7 @@
 #include "VmTextView.h"
 #include "TerminalViewController.h"
 #include "Text.h"
+#include "Cursor.h"
 #include "Update.h"
 #include "Posn.h"
 
@@ -11,7 +12,7 @@ void VmTextView::accept(const NoUpdate &u) {}
 void VmTextView::accept(const VmLoadFile &u) {
     auto it = u.text.beginAtLine(firstDisplayedTextRowNum);
     display(*it, *u.text.end());
-    moveCursor(u.cursorPosn.x, getMinRelativeTextViewRowNum(u.cursorPosn.y, *it));
+    moveCursor(u.cursor.getPosn().x, getMinRelativeTextViewRowNum(u.cursor.getPosn().y, *it));
 }
 
 void VmTextView::accept(const VmCommandMode &u) {
@@ -20,25 +21,54 @@ void VmTextView::accept(const VmCommandMode &u) {
 
 void VmTextView::accept(const VmCommandEnterMode &u) {}
 
+void VmTextView::accept(const VmInsertMode &u) {
+    const Text &text = u.cursor.getText();
+    const Posn cursorPosn = u.cursor.getPosn();
+    auto itAtFirstDisplayedTextRow = text.beginAtLine(firstDisplayedTextRowNum);
+    int currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(cursorPosn.y, *itAtFirstDisplayedTextRow);
+    
+    if (firstDisplayedTextRowNum > 1 && currentRelativeTextViewRowNum <= 5) {
+        --firstDisplayedTextRowNum;
+        text.goBackToStartOfPreviousLine(*itAtFirstDisplayedTextRow);
+        currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(cursorPosn.y, *itAtFirstDisplayedTextRow);
+    } else  {
+        int currentMaxRelativeTextViewRowNum = getMaxRelativeTextViewRowNum(cursorPosn.y, *itAtFirstDisplayedTextRow);
+        int endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *text.end());
+        if (endOfDisplay != 0 && currentMaxRelativeTextViewRowNum >= maxHeight - 4) {
+            do {
+                ++firstDisplayedTextRowNum;
+                text.advanceToStartOfNextLine(*itAtFirstDisplayedTextRow);
+                currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(cursorPosn.y, *itAtFirstDisplayedTextRow);
+                currentMaxRelativeTextViewRowNum = getMaxRelativeTextViewRowNum(cursorPosn.y, *itAtFirstDisplayedTextRow);
+                endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *text.end());
+            } while (endOfDisplay == -1);
+        }
+    }
+    display(*itAtFirstDisplayedTextRow, *text.end());
+    moveCursor(cursorPosn.x, currentRelativeTextViewRowNum);
+}
+
 void VmTextView::accept(const VmMoveCursor &u) {
     int previousFirstDisplayedTextRowNum = firstDisplayedTextRowNum;
-    auto itAtFirstDisplayedTextRow = u.text.beginAtLine(firstDisplayedTextRowNum);
+    const Text &text = u.cursor.getText();
+    const Posn cursorPosn = u.cursor.getPosn();
+    auto itAtFirstDisplayedTextRow = text.beginAtLine(firstDisplayedTextRowNum);
     int currentTextRowNum = u.previousCursorPosn.y;
     int currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(u.previousCursorPosn.y, *itAtFirstDisplayedTextRow);
-    while (currentTextRowNum != u.cursorPosn.y) {
-        if (currentTextRowNum < u.cursorPosn.y) {
+    while (currentTextRowNum != cursorPosn.y) {
+        if (currentTextRowNum < cursorPosn.y) {
             ++currentTextRowNum;
             currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(currentTextRowNum, *itAtFirstDisplayedTextRow);
             int currentMaxRelativeTextViewRowNum = getMaxRelativeTextViewRowNum(currentTextRowNum, *itAtFirstDisplayedTextRow);
-            int endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *u.text.end());
+            int endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *text.end());
             if (endOfDisplay == 0) continue;
             if (currentMaxRelativeTextViewRowNum >= maxHeight - 4) {
                 do {
                     ++firstDisplayedTextRowNum;
-                    u.text.advanceToStartOfNextLine(*itAtFirstDisplayedTextRow);
+                    text.advanceToStartOfNextLine(*itAtFirstDisplayedTextRow);
                     currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(currentTextRowNum, *itAtFirstDisplayedTextRow);
                     currentMaxRelativeTextViewRowNum = getMaxRelativeTextViewRowNum(currentTextRowNum, *itAtFirstDisplayedTextRow);
-                    endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *u.text.end());
+                    endOfDisplay = checkEndOfDisplay(*itAtFirstDisplayedTextRow, *text.end());
                 } while (endOfDisplay == -1);
             }
         } else {
@@ -47,15 +77,15 @@ void VmTextView::accept(const VmMoveCursor &u) {
             if (firstDisplayedTextRowNum == 1) continue;
             if (currentRelativeTextViewRowNum <= 5) {
                 --firstDisplayedTextRowNum;
-                u.text.goBackToStartOfPreviousLine(*itAtFirstDisplayedTextRow);
+                text.goBackToStartOfPreviousLine(*itAtFirstDisplayedTextRow);
                 currentRelativeTextViewRowNum = getMinRelativeTextViewRowNum(currentTextRowNum, *itAtFirstDisplayedTextRow);
             }
         }
     }
     if (previousFirstDisplayedTextRowNum != firstDisplayedTextRowNum) {
-        display(*itAtFirstDisplayedTextRow, *u.text.end());
+        display(*itAtFirstDisplayedTextRow, *text.end());
     }
-    moveCursor(u.cursorPosn.x, currentRelativeTextViewRowNum);
+    moveCursor(cursorPosn.x, currentRelativeTextViewRowNum);
 }
 
 void VmTextView::accept(const VmMoveCursorUp &u) {

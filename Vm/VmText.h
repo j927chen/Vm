@@ -7,7 +7,9 @@
 class VmText: public Text {
     
     std::string text;
+    bool modified;
     size_t numOfLines;
+    size_t numOfChars;
     
 public:
     
@@ -51,9 +53,13 @@ public:
     
     bool isEmpty() const override;
     
+    bool wasModified() const override;
+    
     int getLength() const override;
     
     int getNumOfLines() const override;
+    
+    int getNumOfChars() const override;
     
     std::unique_ptr<TextIterator> begin() override;
     std::unique_ptr<TextIterator> end() override;
@@ -67,6 +73,10 @@ public:
     
     std::unique_ptr<ConstTextIterator> cbegin() override;
     std::unique_ptr<ConstTextIterator> cend() override;
+    
+    std::unique_ptr<ConstTextIterator> insert(char c , const ConstTextIterator &it) override;
+    
+    std::unique_ptr<ConstTextIterator> remove(const ConstTextIterator &it) override;
     
     ~VmText();
     

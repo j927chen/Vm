@@ -5,20 +5,12 @@ VmCursor::VmCursor(const Text &text): text{text}, it{text.begin()}, textPosn{get
 
 VmCursor::VmCursor(const VmCursor &other): text{other.text}, it{other.it->clone()}, textPosn{other.textPosn}, unboundedPosn{other.unboundedPosn} {}
 
-VmCursor::VmCursor(const Text &text, const ConstTextIterator &it): text{text}, it{text.begin()}, textPosn{text.isEmpty() ? Posn {} : Posn {0, 1}} {
+VmCursor::VmCursor(const Text &text, const ConstTextIterator &it): text{text}, it{text.begin()}, textPosn{text.isEmpty() ? Posn {} : Posn {1, 1}} {
     for (; this->it->operator!=(*text.end()); this->it->operator++()) {
         if (this->it->operator==(it)) break;
-        if (textPosn.x == 0) {
-            if (this->it->operator*() == '\n') {
-                ++textPosn.y;
-                continue;
-            }
-            else ++textPosn.x;
-        }
-        if (this->it->next()->operator*() == '\n') {
-            textPosn.x = 0;
+        if (this->it->operator*() == '\n') {
+            textPosn.x = 1;
             ++textPosn.y;
-            this->it->operator++();
         } else ++textPosn.x;
     }
     unboundedPosn = textPosn;
@@ -32,7 +24,7 @@ const Posn VmCursor::getPosn() const { return textPosn; }
 
 char VmCursor::get() const { return it->operator*(); }
 
-char VmCursor::next() const { return it->next()->operator*(); }
+char VmCursor::getNext() const { return it->next()->operator*(); }
 
 const Text &VmCursor::getText() const { return text; }
 
@@ -47,21 +39,42 @@ void VmCursor::moveLeftByOne() {
 
 void VmCursor::moveRightByOne() {
     if (textPosn.y == 0 || textPosn.x == 0) return;
-    if (it->next()->operator*() == '\n') {
-        return;
-    }
+    if (it->operator*() == '\n') return;
     it->operator++();
-    textPosn = Posn{textPosn.x + 1, textPosn.y};
-    unboundedPosn = Posn{unboundedPosn.x + 1, unboundedPosn.y};
+    ++textPosn.x;
+    ++unboundedPosn.x;
+}
+
+void VmCursor::moveRightByOneNoNewLine() {
+    if (textPosn.y == 0 || textPosn.x == 0) return;
+    if (it->operator*() == '\n' || it->next()->operator*() == '\n') return;
+    it->operator++();
+    ++textPosn.x;
+    ++unboundedPosn.x;
 }
 
 void VmCursor::moveUpByOne() {
     if (textPosn.y <= 1) return;
     it = text.beginAtLine(textPosn.y - 1);
+    --textPosn.y;
     if (it->operator*() == '\n') {
-        textPosn = Posn {0, textPosn.y - 1};
+        textPosn.x = 1;
     } else {
-        --textPosn.y;
+        for (textPosn.x = 1; textPosn.x < unboundedPosn.x; ++textPosn.x) {
+            if (it->operator*() == '\n') break;
+            it->operator++();
+        }
+    }
+    unboundedPosn = Posn {unboundedPosn.x, unboundedPosn.y - 1};
+}
+
+void VmCursor::moveUpByOneNoNewLine() {
+    if (textPosn.y <= 1) return;
+    it = text.beginAtLine(textPosn.y - 1);
+    --textPosn.y;
+    if (it->operator*() == '\n') {
+        textPosn.x = 1;
+    } else {
         for (textPosn.x = 1; textPosn.x < unboundedPosn.x; ++textPosn.x) {
             if (it->next()->operator*() == '\n') break;
             it->operator++();
@@ -73,10 +86,26 @@ void VmCursor::moveUpByOne() {
 void VmCursor::moveDownByOne() {
     if (textPosn.y == text.getNumOfLines()) return;
     it = text.beginAtLine(textPosn.y + 1);
+    ++textPosn.y;
     if (it->operator*() == '\n') {
-        textPosn = Posn {0, textPosn.y + 1};
+        textPosn.x = 1;
     } else {
-        ++textPosn.y;
+        for (textPosn.x = 1; textPosn.x < unboundedPosn.x; ++textPosn.x) {
+            if (it->operator*() == '\n') break;
+            it->operator++();
+        }
+    }
+    unboundedPosn = Posn {unboundedPosn.x, unboundedPosn.y + 1};
+}
+
+
+void VmCursor::moveDownByOneNoNewLine() {
+    if (textPosn.y == text.getNumOfLines()) return;
+    it = text.beginAtLine(textPosn.y + 1);
+    ++textPosn.y;
+    if (it->operator*() == '\n') {
+        textPosn.x = 1;
+    } else {
         for (textPosn.x = 1; textPosn.x < unboundedPosn.x; ++textPosn.x) {
             if (it->next()->operator*() == '\n') break;
             it->operator++();
@@ -90,20 +119,26 @@ void VmCursor::setPosn(const Posn p) {
     else {
         if (p.y == 0) {
             it = text.begin();
-            textPosn = Posn {it->operator*() == '\n' ? 0 : 1, 1};
+            textPosn = Posn {1, 1};
         } else if (p.y > text.getNumOfLines()){
             it = text.goBackToStartOfPreviousLine(*text.end());
-            textPosn = Posn {it->operator*() == '\n' ? 0 : 1, text.getNumOfLines()};
+            textPosn = Posn {1, text.getNumOfLines()};
         } else {
             it = text.beginAtLine(p.y);
-            textPosn = Posn {it->operator*() == '\n' ? 0 : 1, p.y};
+            textPosn = Posn {1, p.y};
         }
     }
     unboundedPosn = textPosn;
 }
 
+void VmCursor::resetUnboundedPosn() { unboundedPosn = textPosn; }
+
 std::unique_ptr<Cursor> VmCursor::clone() const {
     return std::make_unique<VmCursor>(*this);
+}
+
+std::unique_ptr<Cursor> VmCursor::clonePrevious() const {
+    return std::make_unique<VmCursor>(text, *it->previous());
 }
 
 VmCursor::~VmCursor() {}

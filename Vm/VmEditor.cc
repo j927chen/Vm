@@ -8,12 +8,14 @@ VmEditor::VmEditor(std::unique_ptr<Text> text): text{std::move(text)}, previousS
 
 const Text &VmEditor::getText() const { return *text; }
 
+// MARK: - Editable
+
 std::unique_ptr<Cursor> VmEditor::insertCharAt(char c, const Cursor &cursor) {
-    return std::unique_ptr<Cursor> {new VmCursor {*text}};
+    return std::make_unique<VmCursor>(*text, *text->insert(c, cursor.getIt())->next());
 }
 
-std::unique_ptr<Cursor> VmEditor::removeCharAt(char c, const Cursor &cursor) {
-    return std::unique_ptr<Cursor> {new VmCursor {*text}};
+std::unique_ptr<Cursor> VmEditor::removeCharAt(const Cursor &cursor) {
+    return std::make_unique<VmCursor>(*text, *text->remove(cursor.getIt()));
 }
 
 
@@ -85,7 +87,7 @@ std::unique_ptr<Searchable::SearchResult> VmEditor::getBackwardMatch(const Curso
 std::unique_ptr<Cursor> VmEditor::goToStartOfFirstWordOfLine(const Cursor &cursor) const {
     auto newCursor = cursor.clone();
     if (newCursor->getPosn() != Posn {} && newCursor->get() != '\n') {
-        for (; isspace(newCursor->get()) && newCursor->next() != '\n'; newCursor->moveRightByOne()) {}
+        for (; isspace(newCursor->get()) && newCursor->getNext() != '\n'; newCursor->moveRightByOne()) {}
     }
     return newCursor;
 }

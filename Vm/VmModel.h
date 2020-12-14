@@ -10,6 +10,7 @@ class Editor;
 class Reader;
 class Writer;
 class Cursor;
+class Posn;
 
 enum VM_MODE {
     COMMAND, COMMAND_ENTER, INSERT, REPLACE,
@@ -97,7 +98,10 @@ class VmModel: public Model {
     std::unique_ptr<const Update> update(colon_number c);
     
     std::unique_ptr<const colon_r> parseColonRCommand() const;
-
+    
+    std::unique_ptr<const Update> defaultUpdate();
+    std::unique_ptr<const Update> defaultInsertUpdate(const Posn previousCursorPosn);
+    std::unique_ptr<const Update> noUpdate();
 
 public:
     VmModel();
@@ -109,6 +113,7 @@ public:
     std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const questionMarkKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const iKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const jKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const kKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const lKeyPressed> a) override;

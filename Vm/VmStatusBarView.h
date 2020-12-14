@@ -7,9 +7,12 @@ class Posn;
 
 class VmStatusBarView: public View {
     
+    const std::string standardZeroCursorColReplacement = "0-1";
+    
     int terminalXCursorPosn;
     int terminalYTop;
-    void displayCursorPosn(const Posn cursorPosn);
+    void displayCursorPosn(const Posn &cursorPosn);
+    void displayCursorPosn(const Posn &cursorPosn, const std::string &colReplacement);
     
 public:
     VmStatusBarView(TerminalViewController &terminalViewController);
@@ -17,6 +20,7 @@ public:
     void accept(const VmLoadFile &u) override;
     void accept(const VmCommandMode &u) override;
     void accept(const VmCommandEnterMode &u) override;
+    void accept(const VmInsertMode &u) override;
     void accept(const VmMoveCursor &u) override;
     void accept(const VmMoveCursorUp &u) override;
     void accept(const VmMoveCursorDown &u) override;

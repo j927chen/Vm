@@ -35,9 +35,13 @@ public:
     
     virtual bool isEmpty() const = 0;
     
+    virtual bool wasModified() const = 0;
+    
     virtual int getLength() const = 0;
     
     virtual int getNumOfLines() const = 0;
+    
+    virtual int getNumOfChars() const = 0;
     
     virtual std::unique_ptr<TextIterator> begin() = 0;
     virtual std::unique_ptr<TextIterator> end() = 0;
@@ -51,6 +55,10 @@ public:
     
     virtual std::unique_ptr<ConstTextIterator> cbegin() = 0;
     virtual std::unique_ptr<ConstTextIterator> cend() = 0;
+    
+    virtual std::unique_ptr<ConstTextIterator> insert(char c , const ConstTextIterator &it) = 0;
+    
+    virtual std::unique_ptr<ConstTextIterator> remove(const ConstTextIterator &it) = 0;
     
     virtual ~Text();
 };

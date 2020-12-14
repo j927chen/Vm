@@ -20,7 +20,7 @@ public:
     const Text &getText() const override;
     
     std::unique_ptr<Cursor> insertCharAt(char c, const Cursor &cursor) override;
-    std::unique_ptr<Cursor> removeCharAt(char c, const Cursor &cursor) override;
+    std::unique_ptr<Cursor> removeCharAt(const Cursor &cursor) override;
     
     std::unique_ptr<const SearchRequest> getPreviousSearch() const override;
     std::unique_ptr<SearchResult> getForwardMatch(const Cursor &cursor, const std::string &searchPattern) override;
