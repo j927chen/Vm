@@ -119,6 +119,7 @@ public:
     std::unique_ptr<const Update> update(std::unique_ptr<const jKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const kKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const lKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const nKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const escKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const backspaceKeyPressed> a) override;
     const std::string &getFileName() const override;
