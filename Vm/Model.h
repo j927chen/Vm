@@ -18,6 +18,7 @@ class questionMarkKeyPressed;
 class IKeyPressed;
 class NKeyPressed;
 class caretKeyPressed;
+class aKeyPressed;
 class hKeyPressed;
 class iKeyPressed;
 class jKeyPressed;
@@ -41,6 +42,7 @@ public:
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const IKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const NKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const caretKeyPressed> a) = 0;
+    virtual std::unique_ptr<const Update> update(std::unique_ptr<const aKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const iKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const jKeyPressed> a) = 0;

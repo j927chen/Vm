@@ -24,6 +24,7 @@ std::map<int, std::unique_ptr<Action>> VmKeyboardController::initializeVmKeyMapp
     map[73] = std::make_unique<IKeyPressed>();
     map[78] = std::make_unique<NKeyPressed>();
     map[94] = std::make_unique<caretKeyPressed>();
+    map[97] = std::make_unique<aKeyPressed>();
     map[104] = std::make_unique<hKeyPressed>();
     map[105] = std::make_unique<iKeyPressed>();
     map[106] = std::make_unique<jKeyPressed>();
