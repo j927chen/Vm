@@ -24,6 +24,7 @@ class jKeyPressed;
 class kKeyPressed;
 class lKeyPressed;
 class nKeyPressed;
+class wKeyPressed;
 class escKeyPressed;
 class backspaceKeyPressed;
 
@@ -46,6 +47,7 @@ public:
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const kKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const lKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const nKeyPressed> a) = 0;
+    virtual std::unique_ptr<const Update> update(std::unique_ptr<const wKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const escKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const backspaceKeyPressed> a) = 0;
     virtual const std::string &getFileName() const = 0;

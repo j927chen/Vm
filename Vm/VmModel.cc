@@ -414,6 +414,28 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const nKeyPressed>
     }
 }
 
+// MARK: - w
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const wKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            if (multiplier == 0) cursor = editor->getForwardWord(*cursor);
+            for (; multiplier > 0; --multiplier) {
+                cursor = editor->getForwardWord(*cursor);
+            }
+            return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('w');
+        case INSERT: {
+            return defaultInsertUpdate(std::move(a), 'w');
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
 // MARK: - esc
 
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const escKeyPressed> a) {

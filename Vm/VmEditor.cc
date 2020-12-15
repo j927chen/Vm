@@ -108,6 +108,44 @@ std::unique_ptr<Cursor> VmEditor::goToEndOfLineNoNewLine(const Cursor &cursor) c
     return newCursor;
 }
 
+std::unique_ptr<Cursor> VmEditor::getForwardWord(const Cursor &cursor) const {
+    auto newCursor = cursor.clone();
+    if (newCursor->getPosn() != Posn {}) {
+        char c = newCursor->get();
+        int numOfLines = newCursor->getText().getNumOfLines();
+        bool newLine = false;
+        while (!((c == '\n' || newCursor->getNext() == '\n') && newCursor->getPosn().y == numOfLines)) {
+            char nextC = newCursor->getNext();
+            if (newLine && c != ' ') {
+                break;
+            } else if (c == '\n') {
+                newCursor->setPosn(Posn {1, newCursor->getPosn().y + 1});
+                newLine = true;
+            } else if ((isalnum(c) || c == '_' ) && !(isalnum(nextC) || nextC == '_' )&& nextC != '\n' && nextC != ' ') {
+                newCursor->moveRightByOneNoNewLine();
+                break;
+            } else if ((isalnum(c) || c == '_' ) && nextC == '\n') {
+                newCursor->setPosn(Posn {1, newCursor->getPosn().y + 1});
+                newLine = true;
+            } else if (!(isalnum(c) || c == '_' ) && (isalnum(nextC) || nextC == '_' )) {
+                newCursor->moveRightByOneNoNewLine();
+                break;
+            } else if (c == ' ' && nextC != ' ' && nextC != '\n') {
+                newCursor->moveRightByOneNoNewLine();
+                break;
+            } else if (nextC == '\n') {
+                newCursor->setPosn(Posn {1, newCursor->getPosn().y + 1});
+                newLine = true;
+            } else {
+                newCursor->moveRightByOneNoNewLine();
+                newLine = false;
+            }
+            c = newCursor->get();
+        }
+    }
+    return newCursor;
+}
+
 bool VmEditor::matches(const std::string &searchPattern, const ConstTextIterator &begin, const ConstTextIterator &end) const {
     auto beginIt = begin.clone();
     for (auto patternIt = searchPattern.begin(); patternIt != searchPattern.end(); ++patternIt) {
