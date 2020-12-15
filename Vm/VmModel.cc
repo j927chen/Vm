@@ -8,6 +8,8 @@
 #include "Action.h"
 #include "Update.h"
 
+#include <iostream>
+
 VmModel::VmModel(): fileName{""}, mode{COMMAND}, editor{std::make_unique<VmEditor>()}, cursor{std::make_unique<VmCursor>(editor->getText())}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()}, typedCommand{""}, multiplier{0} {}
 
 VmModel::VmModel(std::string fileName): fileName{std::move(fileName)}, mode{COMMAND}, reader{std::make_unique<FileReader>()}, writer{std::make_unique<FileWriter>()}, typedCommand{""}, multiplier{0} {
@@ -35,8 +37,9 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const numberKeyPre
     switch (mode) {
         case COMMAND: {
             if (multiplier == 0 && a->num == 0) {
+                const Posn previousCursorPosn = cursor->getPosn();
                 cursor = editor->goToStartOfLine(*cursor);
-                return defaultUpdate();
+                return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
             }
             multiplier = multiplier * 10 + a->num;
             return std::make_unique<const VmMultiplier>(multiplier);
@@ -195,6 +198,28 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const NKeyPressed>
         case INSERT: {
             const Posn previousCursorPosn = cursor->getPosn();
             cursor = editor->insertCharAt('N', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
+// MARK: - ^
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const caretKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor->setPosn(Posn {1, previousCursorPosn.y});
+            cursor = editor->goToStartOfFirstWordOfLine(*cursor);
+            return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('^');
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('^', *cursor);
             return defaultInsertUpdate(std::move(previousCursorPosn));
         }
         case REPLACE:

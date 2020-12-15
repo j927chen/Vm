@@ -61,6 +61,12 @@ std::unique_ptr<const Action> NKeyPressed::clone() const {
     return std::make_unique<const NKeyPressed>(); }
 
 
+std::unique_ptr<const Update> caretKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const caretKeyPressed>()); }
+
+std::unique_ptr<const Action> caretKeyPressed::clone() const {
+    return std::make_unique<const caretKeyPressed>(); }
+
+
 std::unique_ptr<const Update> hKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const hKeyPressed>()); }
 
 std::unique_ptr<const Action> hKeyPressed::clone() const {
