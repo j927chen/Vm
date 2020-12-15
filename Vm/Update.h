@@ -2,6 +2,8 @@
 #define Update_h
 
 #include <string>
+#include <vector>
+#include <memory>
 #include "Posn.h"
 
 class View;
@@ -88,6 +90,17 @@ public:
     void visit(View &v) const override;
     ~VmCommandMode();
 };
+
+class VmCommandModeAfterTextChange: public Update {
+public:
+    std::unique_ptr<const std::vector<std::unique_ptr<const Text>>> textHistory;
+    std::unique_ptr<const std::vector<std::unique_ptr<const Posn>>> cursorPosnHistory;
+    const Posn initialPreviousPosn;
+    VmCommandModeAfterTextChange(std::unique_ptr<const std::vector<std::unique_ptr<const Text>>> textHistory, std::unique_ptr<const std::vector<std::unique_ptr<const Posn>>> cursorPosnHistory, const Posn initialPreviousPosn);
+    void visit(View &v) const override;
+    ~VmCommandModeAfterTextChange();
+};
+
 
 class VmCommandEnterMode: public Update {
 public:

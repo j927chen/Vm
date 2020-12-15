@@ -82,6 +82,8 @@ VmText::VmText(std::string text): text{std::move(text)}, modified{false}, numOfC
     numOfLines = newLineCount;
 }
 
+VmText::VmText(const VmText &other): text{other.text}, modified{false}, numOfLines{other.numOfLines}, numOfChars{other.numOfChars} {}
+
 std::unique_ptr<TextIterator> VmText::begin() {
     return std::unique_ptr<VmTextIterator>(new VmTextIterator {text.begin()});
 }
@@ -169,5 +171,9 @@ int VmText::getLength() const { return text.length(); }
 int VmText::getNumOfLines() const { return numOfLines; }
 
 int VmText::getNumOfChars() const { return numOfChars; }
+
+std::unique_ptr<Text> VmText::clone() const {
+    return std::make_unique<VmText>(*this);
+}
 
 VmText::~VmText() {}

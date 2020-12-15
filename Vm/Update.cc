@@ -1,5 +1,6 @@
 #include "Update.h"
 #include "View.h"
+#include "Text.h"
 
 Update::~Update() {}
 
@@ -26,6 +27,13 @@ VmCommandMode::VmCommandMode(const Cursor &cursor, const Posn previousCursorPosn
 void VmCommandMode::visit(View &v) const { v.accept(*this); }
 
 VmCommandMode::~VmCommandMode() {}
+
+
+VmCommandModeAfterTextChange::VmCommandModeAfterTextChange(std::unique_ptr<const std::vector<std::unique_ptr<const Text>>> textHistory, std::unique_ptr<const std::vector<std::unique_ptr<const Posn>>> cursorPosnHistory, const Posn initialPreviousPosn): textHistory{std::move(textHistory)}, cursorPosnHistory{std::move(cursorPosnHistory)}, initialPreviousPosn{std::move(initialPreviousPosn)} {}
+
+void VmCommandModeAfterTextChange::visit(View &v) const { v.accept(*this); }
+
+VmCommandModeAfterTextChange::~VmCommandModeAfterTextChange() {}
 
 
 VmCommandEnterMode::VmCommandEnterMode(const std::string &typedCommand): typedCommand(typedCommand) {}

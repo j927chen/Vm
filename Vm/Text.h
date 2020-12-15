@@ -60,6 +60,8 @@ public:
     
     virtual std::unique_ptr<ConstTextIterator> remove(const ConstTextIterator &it) = 0;
     
+    virtual std::unique_ptr<Text> clone() const = 0;
+    
     virtual ~Text();
 };
 

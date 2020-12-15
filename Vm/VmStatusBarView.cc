@@ -60,6 +60,11 @@ void VmStatusBarView::accept(const VmCommandMode &u) {
     } else displayCursorPosn(u.cursor.getPosn());
 }
 
+void VmStatusBarView::accept(const VmCommandModeAfterTextChange &u) {
+    terminalViewController.clearToEOL(Posn {0, terminalYTop});
+    displayCursorPosn(Posn {u.cursorPosnHistory->back()->x, u.cursorPosnHistory->back()->y});
+}
+
 void VmStatusBarView::accept(const VmCommandEnterMode &u) {
     int x = 0;
     for (auto it = u.typedCommand.begin(); it != u.typedCommand.end(); ++it) {

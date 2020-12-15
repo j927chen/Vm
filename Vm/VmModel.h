@@ -1,7 +1,7 @@
 #ifndef VmModel_h
 #define VmModel_h
 
-#include <string>
+#include <vector>
 
 #include "Model.h"
 #include "Searchable.h"
@@ -10,6 +10,7 @@ class Editor;
 class Reader;
 class Writer;
 class Cursor;
+class Action;
 class Posn;
 
 enum VM_MODE {
@@ -26,6 +27,8 @@ class VmModel: public Model {
     std::unique_ptr<Writer> writer;
     std::string typedCommand;
     int multiplier;
+    std::vector<std::unique_ptr<const Action>> textChange;
+    bool isRecordingTextChange;
     
     std::unique_ptr<const Update> pushBackCharInTypedCommand(char c);
     std::unique_ptr<const Update> updateForTypedCommand();
@@ -101,7 +104,7 @@ class VmModel: public Model {
     std::unique_ptr<const colon_r> parseColonRCommand() const;
     
     std::unique_ptr<const Update> defaultUpdate();
-    std::unique_ptr<const Update> defaultInsertUpdate(const Posn previousCursorPosn);
+    std::unique_ptr<const Update> defaultInsertUpdate(std::unique_ptr<const Action> a, char c);
     std::unique_ptr<const Update> noUpdate();
 
 public:

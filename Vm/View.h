@@ -5,6 +5,7 @@ class TerminalViewController;
 class NoUpdate;
 class VmLoadFile;
 class VmCommandMode;
+class VmCommandModeAfterTextChange;
 class VmCommandEnterMode;
 class VmMultiplier;
 class VmInsertMode;
@@ -23,6 +24,7 @@ public:
     View(TerminalViewController &terminalViewController);
     virtual void accept(const NoUpdate &u) = 0;
     virtual void accept(const VmLoadFile &u) = 0;
+    virtual void accept(const VmCommandModeAfterTextChange &u) = 0;
     virtual void accept(const VmCommandMode &u) = 0;
     virtual void accept(const VmCommandEnterMode &u) = 0;
     virtual void accept(const VmMultiplier &u) = 0;

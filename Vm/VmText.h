@@ -15,6 +15,7 @@ public:
     
     VmText();
     VmText(std::string text);
+    VmText(const VmText &other);
     
     class VmTextIterator: public TextIterator {
         
@@ -77,6 +78,8 @@ public:
     std::unique_ptr<ConstTextIterator> insert(char c , const ConstTextIterator &it) override;
     
     std::unique_ptr<ConstTextIterator> remove(const ConstTextIterator &it) override;
+    
+    std::unique_ptr<Text> clone() const override;
     
     ~VmText();
     
