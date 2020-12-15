@@ -123,6 +123,64 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMark
     }
 }
 
+// MARK: - N
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const NKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            std::string message {};
+            int loop = 0;
+            try {
+                auto previousSearchRequest = editor->getPreviousSearch();
+                std::unique_ptr<Searchable::SearchResult> result;
+                if (previousSearchRequest->forward) {
+                    if (multiplier == 0) {
+                        result = editor->getBackwardMatch(*cursor, previousSearchRequest->searchPattern);
+                        cursor = std::move(result->cursor);
+                        loop = result->loop;
+                    }
+                    for (; multiplier > 0; --multiplier) {
+                        result = editor->getBackwardMatch(*cursor, previousSearchRequest->searchPattern);
+                        cursor = std::move(result->cursor);
+                        if (loop == 0) loop = result->loop;
+                    }
+                    // do not record this N command
+                    editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
+                } else {
+                    if (multiplier == 0) {
+                        result = editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
+                        cursor = std::move(result->cursor);
+                        loop = result->loop;
+                    }
+                    for (; multiplier > 0; --multiplier) {
+                        result = editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
+                        cursor = std::move(result->cursor);
+                        if (loop == 0) loop = result->loop;
+                    }
+                    editor->getBackwardMatch(*cursor, previousSearchRequest->searchPattern);
+                }
+                if (!result->matchFound) message = "Pattern not found";
+                else if (loop == 1) message = "search hit BOTTOM, continuing at TOP";
+                else if (loop == -1) message = "search hit TOP, continuing at BOTTOM";
+            } catch (...) {
+                message = "No previous regular expression";
+                multiplier = 0;
+            }
+            return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, message);
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('N');
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('N', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
 // MARK: - h
 
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const hKeyPressed> a) {
@@ -234,7 +292,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const nKeyPressed>
             try {
                 auto previousSearchRequest = editor->getPreviousSearch();
                 std::unique_ptr<Searchable::SearchResult> result;
-                bool loop;
+                int loop = 0;
                 if (previousSearchRequest->forward) {
                     if (multiplier == 0) {
                         result = editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
@@ -244,7 +302,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const nKeyPressed>
                     for (; multiplier > 0; --multiplier) {
                         result = editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
                         cursor = std::move(result->cursor);
-                        loop = result->loop;
+                        if (loop == 0) loop = result->loop;
                     }
                     if (cursor->getPosn() == previousCursorPosn) {
                         result = editor->getForwardMatch(*cursor, previousSearchRequest->searchPattern);
@@ -259,7 +317,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const nKeyPressed>
                     for (; multiplier > 0; --multiplier) {
                         result = editor->getBackwardMatch(*cursor, previousSearchRequest->searchPattern);
                         cursor = std::move(result->cursor);
-                        loop = result->loop;
+                        if (loop == 0) loop = result->loop;
                     }
                     if (cursor->getPosn() == previousCursorPosn) {
                         result = editor->getBackwardMatch(*cursor, previousSearchRequest->searchPattern);
