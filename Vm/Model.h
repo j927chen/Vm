@@ -9,6 +9,7 @@ class Cursor;
 
 class otherKeyPressed;
 class numberKeyPressed;
+class control_gKeyPressed;
 class enterKeyPressed;
 class colonKeyPressed;
 class forwardSlashKeyPressed;
@@ -27,6 +28,7 @@ class Model {
 public:
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const otherKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const numberKeyPressed> a) = 0;
+    virtual std::unique_ptr<const Update> update(std::unique_ptr<const control_gKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const enterKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const colonKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) = 0;

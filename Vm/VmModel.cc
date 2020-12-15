@@ -53,6 +53,29 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const numberKeyPre
     }
 }
 
+// MARK: - ^g
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const control_gKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            int numOfLines = editor->getText().getNumOfLines();
+            const std::string message = std::string {'"'} + (fileName.empty() ? "[No Name]" : fileName) + std::string {'"'} + " " + (numOfLines == 0 ? "--No lines in buffer--" : numOfLines == 1 ? "1 line" : std::to_string(numOfLines) + " lines");
+            return std::make_unique<const VmCommandMode>(*cursor, cursor->getPosn(),  message);
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand(7);
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt(7, *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
+// MARK: - enter
+
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const enterKeyPressed> a) {
     switch (mode) {
         case COMMAND:

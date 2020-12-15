@@ -4,6 +4,7 @@
 
 std::map<int, std::unique_ptr<Action>> VmKeyboardController::initializeVmKeyMappings(TerminalViewController &terminalViewController) {
     std::map<int, std::unique_ptr<Action>> map;
+    map[7] = std::make_unique<control_gKeyPressed>();
     map[10] = std::make_unique<enterKeyPressed>();
     map[27] = std::make_unique<escKeyPressed>();
     map[58] = std::make_unique<colonKeyPressed>();
