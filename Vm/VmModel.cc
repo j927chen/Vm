@@ -161,6 +161,26 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const questionMark
     }
 }
 
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const AKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            mode = INSERT;
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->goToEndOfLineNoNewLine(*cursor);
+            cursor->moveRightByOne();
+            isRecordingTextChange = true;
+            return std::make_unique<const VmInsertMode>(*cursor, previousCursorPosn);
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('A');
+        case INSERT: {
+            return defaultInsertUpdate(std::move(a), 'A');
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
 // MARK: - I
 
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const IKeyPressed> a) {

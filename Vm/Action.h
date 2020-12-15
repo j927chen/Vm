@@ -65,6 +65,12 @@ public:
     std::unique_ptr<const Action> clone() const override;
 };
 
+class AKeyPressed: public Action {
+public:
+    std::unique_ptr<const Update> visit(Model &m) const override;
+    std::unique_ptr<const Action> clone() const override;
+};
+
 class IKeyPressed: public Action {
 public:
     std::unique_ptr<const Update> visit(Model &m) const override;
