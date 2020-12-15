@@ -84,6 +84,12 @@ std::unique_ptr<Searchable::SearchResult> VmEditor::getBackwardMatch(const Curso
     return std::make_unique<SearchResult>(std::make_unique<VmCursor>(text, cursor.getIt()), false, -1);
 }
 
+std::unique_ptr<Cursor> VmEditor::goToStartOfLine(const Cursor &cursor) const {
+    auto newCursor = cursor.clone();
+    newCursor->setPosn(Posn {1, cursor.getPosn().y});
+    return newCursor;
+}
+
 std::unique_ptr<Cursor> VmEditor::goToStartOfFirstWordOfLine(const Cursor &cursor) const {
     auto newCursor = cursor.clone();
     if (newCursor->getPosn() != Posn {} && newCursor->get() != '\n') {

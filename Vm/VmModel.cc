@@ -35,8 +35,8 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const numberKeyPre
     switch (mode) {
         case COMMAND: {
             if (multiplier == 0 && a->num == 0) {
-                // GO TO START OF LINE
-                return std::make_unique<NoUpdate>();
+                cursor = editor->goToStartOfLine(*cursor);
+                return defaultUpdate();
             }
             multiplier = multiplier * 10 + a->num;
             return std::make_unique<const VmMultiplier>(multiplier);
@@ -65,9 +65,7 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const control_gKey
         case COMMAND_ENTER:
             return pushBackCharInTypedCommand(7);
         case INSERT: {
-            const Posn previousCursorPosn = cursor->getPosn();
-            cursor = editor->insertCharAt(7, *cursor);
-            return defaultInsertUpdate(std::move(previousCursorPosn));
+            return std::make_unique<NoUpdate>();
         }
         case REPLACE:
             return std::make_unique<NoUpdate>();
