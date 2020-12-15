@@ -28,6 +28,7 @@ public:
     
     std::unique_ptr<Cursor> goToStartOfLine(const Cursor &cursor) const override;
     std::unique_ptr<Cursor> goToStartOfFirstWordOfLine(const Cursor &cursor) const override;
+    std::unique_ptr<Cursor> goToEndOfLineNoNewLine(const Cursor &cursor) const override;
     
     ~VmEditor();
     

@@ -93,6 +93,34 @@ std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const enterKeyPres
     }
 }
 
+// MARK: - $
+
+std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const dollarSignKeyPressed> a) {
+    switch (mode) {
+        case COMMAND: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            if (multiplier == 0) cursor = editor->goToEndOfLineNoNewLine(*cursor);
+            else {
+                cursor->setPosn(Posn {1, previousCursorPosn.y + multiplier - 1});
+                cursor = editor->goToEndOfLineNoNewLine(*cursor);
+                multiplier = 0;
+            }
+            return std::make_unique<const VmCommandMode>(*cursor, previousCursorPosn, "");
+        }
+        case COMMAND_ENTER:
+            return pushBackCharInTypedCommand('$');
+        case INSERT: {
+            const Posn previousCursorPosn = cursor->getPosn();
+            cursor = editor->insertCharAt('$', *cursor);
+            return defaultInsertUpdate(std::move(previousCursorPosn));
+        }
+        case REPLACE:
+            return std::make_unique<NoUpdate>();
+    }
+}
+
+// MARK: - :
+
 std::unique_ptr<const Update> VmModel::update(std::unique_ptr<const colonKeyPressed> a) {
     switch (mode) {
         case COMMAND:

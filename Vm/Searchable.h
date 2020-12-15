@@ -33,6 +33,7 @@ public:
     virtual std::unique_ptr<SearchResult> getBackwardMatch(const Cursor &cursor, const std::string &searchPattern) = 0;
     virtual std::unique_ptr<Cursor> goToStartOfLine(const Cursor &cursor) const = 0;
     virtual std::unique_ptr<Cursor> goToStartOfFirstWordOfLine(const Cursor &cursor) const = 0;
+    virtual std::unique_ptr<Cursor> goToEndOfLineNoNewLine(const Cursor &cursor) const = 0;
     virtual ~Searchable();
 };
 

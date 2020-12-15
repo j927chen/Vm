@@ -98,6 +98,16 @@ std::unique_ptr<Cursor> VmEditor::goToStartOfFirstWordOfLine(const Cursor &curso
     return newCursor;
 }
 
+std::unique_ptr<Cursor> VmEditor::goToEndOfLineNoNewLine(const Cursor &cursor) const {
+    auto newCursor = cursor.clone();
+    if (newCursor->getPosn() != Posn {}) {
+        while (newCursor->get() != '\n' && newCursor->getNext() != '\n') {
+            newCursor->moveRightByOneNoNewLine();
+        }
+    }
+    return newCursor;
+}
+
 bool VmEditor::matches(const std::string &searchPattern, const ConstTextIterator &begin, const ConstTextIterator &end) const {
     auto beginIt = begin.clone();
     for (auto patternIt = searchPattern.begin(); patternIt != searchPattern.end(); ++patternIt) {

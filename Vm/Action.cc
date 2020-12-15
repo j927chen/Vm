@@ -37,6 +37,12 @@ std::unique_ptr<const Update> enterKeyPressed::visit(Model &m) const {
     return m.update(std::make_unique<const enterKeyPressed>()); }
 
 
+std::unique_ptr<const Update> dollarSignKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const dollarSignKeyPressed>()); }
+
+std::unique_ptr<const Action> dollarSignKeyPressed::clone() const {
+    return std::make_unique<const dollarSignKeyPressed>(); }
+
+
 std::unique_ptr<const Update> colonKeyPressed::visit(Model &m) const { return m.update(std::make_unique<const colonKeyPressed>()); }
 
 std::unique_ptr<const Action> colonKeyPressed::clone() const {
