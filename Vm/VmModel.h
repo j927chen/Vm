@@ -119,6 +119,7 @@ public:
     std::unique_ptr<const Update> update(std::unique_ptr<const colonKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const questionMarkKeyPressed> a) override;
+    std::unique_ptr<const Update> update(std::unique_ptr<const IKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const NKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const caretKeyPressed> a) override;
     std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) override;

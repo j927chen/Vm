@@ -15,6 +15,7 @@ class dollarSignKeyPressed;
 class colonKeyPressed;
 class forwardSlashKeyPressed;
 class questionMarkKeyPressed;
+class IKeyPressed;
 class NKeyPressed;
 class caretKeyPressed;
 class hKeyPressed;
@@ -36,6 +37,7 @@ public:
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const colonKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const forwardSlashKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const questionMarkKeyPressed> a) = 0;
+    virtual std::unique_ptr<const Update> update(std::unique_ptr<const IKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const NKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const caretKeyPressed> a) = 0;
     virtual std::unique_ptr<const Update> update(std::unique_ptr<const hKeyPressed> a) = 0;
