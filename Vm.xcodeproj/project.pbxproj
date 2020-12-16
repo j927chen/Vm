@@ -23,6 +23,7 @@
 		9673ED082580DBC20077A867 /* Cursor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9673ED062580DBC20077A867 /* Cursor.cc */; };
 		9681B11925805073007E0093 /* KeyboardController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9681B11725805072007E0093 /* KeyboardController.cc */; };
 		9681B12425805492007E0093 /* VmKeyboardController.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9681B12225805492007E0093 /* VmKeyboardController.cc */; };
+		968377192589638D00EC05B9 /* Vm.cc in Sources */ = {isa = PBXBuildFile; fileRef = 968377172589638D00EC05B9 /* Vm.cc */; };
 		96CD6C99257EF04800C14FFD /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6C98257EF04800C14FFD /* main.cc */; };
 		96CD6CA2257EF15B00C14FFD /* Reader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA0257EF15B00C14FFD /* Reader.cc */; };
 		96CD6CA7257EF1C300C14FFD /* Text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 96CD6CA5257EF1C300C14FFD /* Text.cc */; };
@@ -80,6 +81,8 @@
 		9681B11825805073007E0093 /* KeyboardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardController.h; sourceTree = "<group>"; };
 		9681B12225805492007E0093 /* VmKeyboardController.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VmKeyboardController.cc; sourceTree = "<group>"; };
 		9681B12325805492007E0093 /* VmKeyboardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VmKeyboardController.h; sourceTree = "<group>"; };
+		968377172589638D00EC05B9 /* Vm.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Vm.cc; sourceTree = "<group>"; };
+		968377182589638D00EC05B9 /* Vm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vm.h; sourceTree = "<group>"; };
 		96CD6C95257EF04800C14FFD /* Vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Vm; sourceTree = BUILT_PRODUCTS_DIR; };
 		96CD6C98257EF04800C14FFD /* main.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
 		96CD6CA0257EF15B00C14FFD /* Reader.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reader.cc; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 			children = (
 				96E74E4B257F2F4B005730BF /* Makefile */,
 				96CD6C98257EF04800C14FFD /* main.cc */,
+				968377172589638D00EC05B9 /* Vm.cc */,
+				968377182589638D00EC05B9 /* Vm.h */,
 				9673ECD92580B5390077A867 /* Model.cc */,
 				9673ECDA2580B5390077A867 /* Model.h */,
 				9673ECFB2580BBCB0077A867 /* VmModel.cc */,
@@ -263,6 +268,7 @@
 				9636A60925833FB400EACAAF /* VmStatusBarView.cc in Sources */,
 				96CD6CB2257EFE4900C14FFD /* VmText.cc in Sources */,
 				9673ECFD2580BBCB0077A867 /* VmModel.cc in Sources */,
+				968377192589638D00EC05B9 /* Vm.cc in Sources */,
 				9673ED032580BFB30077A867 /* Update.cc in Sources */,
 				96CD6CAC257EF49D00C14FFD /* FileReader.cc in Sources */,
 				9673ECE52580B6000077A867 /* VmTextView.cc in Sources */,

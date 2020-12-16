@@ -32,6 +32,7 @@ std::map<int, std::unique_ptr<Action>> VmKeyboardController::initializeVmKeyMapp
     map[107] = std::make_unique<kKeyPressed>();
     map[108] = std::make_unique<lKeyPressed>();
     map[110] = std::make_unique<nKeyPressed>();
+    map[111] = std::make_unique<oKeyPressed>();
     map[119] = std::make_unique<wKeyPressed>();
     map[terminalViewController.getBackspaceCode()] = std::make_unique<backspaceKeyPressed>();
 

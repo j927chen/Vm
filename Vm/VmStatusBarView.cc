@@ -62,7 +62,7 @@ void VmStatusBarView::accept(const VmCommandMode &u) {
 
 void VmStatusBarView::accept(const VmCommandModeAfterTextChange &u) {
     terminalViewController.clearToEOL(Posn {0, terminalYTop});
-    displayCursorPosn(Posn {u.cursorPosnHistory->back()->x, u.cursorPosnHistory->back()->y});
+    displayCursorPosn(Posn {u.cursorPosnHistory->back()->x, u.cursorPosnHistory->back()->y}, standardZeroCursorColReplacement);
 }
 
 void VmStatusBarView::accept(const VmCommandEnterMode &u) {

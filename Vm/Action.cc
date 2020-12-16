@@ -127,6 +127,12 @@ std::unique_ptr<const Action> nKeyPressed::clone() const {
     return std::make_unique<const nKeyPressed>(); }
 
 
+std::unique_ptr<const Update> oKeyPressed::visit(Model &m) const { return m.update(std::make_unique<oKeyPressed>()); }
+
+std::unique_ptr<const Action> oKeyPressed::clone() const {
+    return std::make_unique<const oKeyPressed>(); }
+
+
 std::unique_ptr<const Update> wKeyPressed::visit(Model &m) const { return m.update(std::make_unique<wKeyPressed>()); }
 
 std::unique_ptr<const Action> wKeyPressed::clone() const {
