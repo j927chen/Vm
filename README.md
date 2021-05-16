@@ -13,19 +13,19 @@ Run the executable as you would with actual Vim:
 
 # Images
 
-![Editor with new, empty file](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/"new file.png")
+![Editor with new, empty file](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/new%20file.png)
 
 Create a text file.
 
 
 
-![Editor with existing file](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/"existing file.png")
+![Editor with existing file](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/existing%20file.png)
 
 Or, start reading an existing one.
 
 
 
-![Editor in insertion mode](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/"insert mode.png")
+![Editor in insertion mode](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/insert%20mode.png)
 
 Let your typing skills loose!
 
