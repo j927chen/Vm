@@ -13,7 +13,7 @@ Run the executable as you would with actual Vim:
 
 # Images
 
-Create a text file.
+Create a new text file.
 
 ![Editor with new, empty file](https://github.com/j927chen/Vm/blob/readme/Readme%20Images/new%20file.png)
 
